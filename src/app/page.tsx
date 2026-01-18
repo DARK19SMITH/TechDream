@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -11,7 +12,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CircuitBackground } from "@/components/CircuitBackground";
 import { ParticleEffect } from "@/components/ParticleEffect";
-import { getProducts, getArticles } from "@/lib/store";
+import { Product, Article } from "@/lib/supabase";
 
 const features = [
   { icon: Monitor, title: "PC Haute Performance", desc: "Configurations sur mesure pour tous vos besoins" },
@@ -28,8 +29,16 @@ const stats = [
 ];
 
 export default function HomePage() {
-  const products = getProducts().slice(0, 3);
-  const articles = getArticles().slice(0, 3);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    fetch("/api/products").then(res => res.json()).then(data => setProducts(data.slice(0, 3)));
+    fetch("/api/articles").then(res => res.json()).then(data => {
+      const published = data.filter((a: Article) => a.published);
+      setArticles(published.slice(0, 3));
+    });
+  }, []);
 
   return (
     <main className="min-h-screen">
@@ -175,7 +184,7 @@ export default function HomePage() {
               >
                 <div className="relative h-56 overflow-hidden">
                   <img 
-                    src={product.image} 
+                    src={product.image || ""} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -318,7 +327,7 @@ export default function HomePage() {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img 
-                    src={article.image} 
+                    src={article.image || ""} 
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -331,7 +340,7 @@ export default function HomePage() {
                 <div className="p-6">
                   <div className="flex items-center gap-2 text-gray-500 text-sm mb-3">
                     <Clock className="w-4 h-4" />
-                    {new Date(article.date).toLocaleDateString('fr-FR', { 
+                    {new Date(article.created_at).toLocaleDateString('fr-FR', { 
                       day: 'numeric', 
                       month: 'long', 
                       year: 'numeric' 

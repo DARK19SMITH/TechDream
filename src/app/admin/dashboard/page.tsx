@@ -1,15 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
   FileText, Lightbulb, TrendingUp, Eye, 
   Plus, ArrowRight, Calendar, Clock
 } from "lucide-react";
-import { getAllArticles } from "@/lib/store";
+import { Article } from "@/lib/supabase";
 
 export default function AdminDashboard() {
-  const articles = getAllArticles();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/articles")
+      .then(res => res.json())
+      .then(data => {
+        setArticles(data);
+        setIsLoading(false);
+      });
+  }, []);
+
   const publishedCount = articles.filter(a => a.published).length;
   const conseilsCount = articles.filter(a => a.category === "conseil").length;
   const recentArticles = articles.slice(0, 5);
@@ -44,6 +56,14 @@ export default function AdminDashboard() {
       change: "Ce mois"
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen p-6 lg:p-8 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#0066ff]/30 border-t-[#0066ff] rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6 lg:p-8">
@@ -112,7 +132,7 @@ export default function AdminDashboard() {
                 className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-[#0066ff]/5 transition-colors"
               >
                 <img 
-                  src={article.image} 
+                  src={article.image || ""} 
                   alt={article.title}
                   className="w-16 h-16 rounded-lg object-cover"
                 />
@@ -130,7 +150,7 @@ export default function AdminDashboard() {
                     </span>
                     <span className="text-xs text-gray-500 flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {new Date(article.date).toLocaleDateString('fr-FR')}
+                      {new Date(article.created_at).toLocaleDateString('fr-FR')}
                     </span>
                   </div>
                 </div>

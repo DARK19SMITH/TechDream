@@ -1,33 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Search, Edit, Trash2, Eye, EyeOff, 
-  X, Save, Calendar, Tag, Image as ImageIcon,
+  X, Save, Tag, Image as ImageIcon,
   Lightbulb
 } from "lucide-react";
-import { getAllArticles, addArticle, updateArticle, deleteArticle, Article } from "@/lib/store";
+import { Article } from "@/lib/supabase";
 
 export default function AdminConseilsPage() {
-  const allArticles = getAllArticles();
-  const [articles, setArticles] = useState(allArticles.filter(a => a.category === "conseil" || a.category === "astuce"));
+  const [articles, setArticles] = useState<Article[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     image: "",
     category: "conseil" as Article["category"],
-    date: new Date().toISOString().split("T")[0],
     published: true,
   });
 
-  const refreshArticles = () => {
-    const updated = getAllArticles().filter(a => a.category === "conseil" || a.category === "astuce");
-    setArticles(updated);
+  const fetchArticles = async () => {
+    const res = await fetch("/api/articles");
+    const data = await res.json();
+    const filtered = data.filter((a: Article) => a.category === "conseil" || a.category === "astuce");
+    setArticles(filtered);
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
   const filteredArticles = articles.filter((article) =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -39,9 +45,8 @@ export default function AdminConseilsPage() {
       setFormData({
         title: article.title,
         content: article.content,
-        image: article.image,
+        image: article.image || "",
         category: article.category,
-        date: article.date,
         published: article.published,
       });
     } else {
@@ -51,34 +56,53 @@ export default function AdminConseilsPage() {
         content: "",
         image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800",
         category: "conseil",
-        date: new Date().toISOString().split("T")[0],
         published: true,
       });
     }
     setIsModalOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editingArticle) {
-      updateArticle(editingArticle.id, formData);
+      await fetch(`/api/articles/${editingArticle.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
     } else {
-      addArticle(formData);
+      await fetch("/api/articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
     }
-    refreshArticles();
+    fetchArticles();
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer ce conseil ?")) {
-      deleteArticle(id);
-      refreshArticles();
+      await fetch(`/api/articles/${id}`, { method: "DELETE" });
+      fetchArticles();
     }
   };
 
-  const togglePublish = (article: Article) => {
-    updateArticle(article.id, { published: !article.published });
-    refreshArticles();
+  const togglePublish = async (article: Article) => {
+    await fetch(`/api/articles/${article.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ published: !article.published }),
+    });
+    fetchArticles();
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen p-6 lg:p-8 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#0066ff]/30 border-t-[#0066ff] rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6 lg:p-8">
@@ -136,7 +160,7 @@ export default function AdminConseilsPage() {
           >
             <div className="relative h-40 overflow-hidden">
               <img
-                src={article.image}
+                src={article.image || ""}
                 alt={article.title}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -171,7 +195,7 @@ export default function AdminConseilsPage() {
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">
-                  {new Date(article.date).toLocaleDateString('fr-FR')}
+                  {new Date(article.created_at).toLocaleDateString('fr-FR')}
                 </span>
                 <div className="flex items-center gap-2">
                   <button
@@ -281,34 +305,19 @@ export default function AdminConseilsPage() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Tag className="w-4 h-4 inline mr-2" />
-                      Type
-                    </label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    >
-                      <option value="conseil">Conseil</option>
-                      <option value="astuce">Astuce</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Calendar className="w-4 h-4 inline mr-2" />
-                      Date de publication
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <Tag className="w-4 h-4 inline mr-2" />
+                    Type
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                  >
+                    <option value="conseil">Conseil</option>
+                    <option value="astuce">Astuce</option>
+                  </select>
                 </div>
 
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0066ff]/5 border border-[#0066ff]/10">

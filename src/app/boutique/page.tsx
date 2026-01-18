@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   Monitor, Laptop, Gamepad2, Briefcase, Package, 
@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { getProducts, Product } from "@/lib/store";
+import { Product } from "@/lib/supabase";
 
 const categories = [
   { id: "all", label: "Tous", icon: Package },
@@ -21,12 +21,22 @@ const categories = [
 export default function BoutiquePage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const products = getProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        setIsLoading(false);
+      });
+  }, []);
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory = activeCategory === "all" || product.category === activeCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
+                         (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
     return matchesCategory && matchesSearch;
   });
 
@@ -96,28 +106,36 @@ export default function BoutiquePage() {
 
       <section className="py-16 bg-gradient-to-b from-white to-[#f0f7ff]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <p className="text-gray-600 font-rajdhani">
-              <span className="font-semibold text-[#0066ff]">{filteredProducts.length}</span> produits trouvés
-            </p>
-          </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-8 h-8 border-4 border-[#0066ff]/30 border-t-[#0066ff] rounded-full animate-spin" />
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center justify-between mb-8">
+                <p className="text-gray-600 font-rajdhani">
+                  <span className="font-semibold text-[#0066ff]">{filteredProducts.length}</span> produits trouvés
+                </p>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProducts.map((product, i) => (
+                  <ProductCard key={product.id} product={product} index={i} />
+                ))}
+              </div>
 
-          {filteredProducts.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-20"
-            >
-              <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="font-orbitron text-xl text-gray-600 mb-2">Aucun produit trouvé</h3>
-              <p className="text-gray-500">Essayez une autre recherche ou catégorie</p>
-            </motion.div>
+              {filteredProducts.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-20"
+                >
+                  <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <h3 className="font-orbitron text-xl text-gray-600 mb-2">Aucun produit trouvé</h3>
+                  <p className="text-gray-500">Essayez une autre recherche ou catégorie</p>
+                </motion.div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -141,7 +159,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
     >
       <div className="relative h-64 overflow-hidden rounded-t-xl">
         <img
-          src={product.image}
+          src={product.image || ""}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -151,7 +169,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           <span className="px-3 py-1 rounded-full bg-[#0066ff] text-white text-xs font-bold uppercase">
             {product.category}
           </span>
-          {product.inStock ? (
+          {product.in_stock ? (
             <span className="px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold flex items-center gap-1">
               <Check className="w-3 h-3" /> En stock
             </span>
@@ -168,7 +186,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           className="absolute bottom-4 left-4 right-4"
         >
           <div className="flex flex-wrap gap-2">
-            {product.specs.slice(0, 3).map((spec, i) => (
+            {product.specs?.slice(0, 3).map((spec, i) => (
               <span key={i} className="px-2 py-1 rounded bg-[#00d4ff]/20 text-[#00d4ff] text-xs font-medium">
                 {spec}
               </span>
@@ -193,14 +211,14 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
           <button 
             className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all ${
-              product.inStock 
+              product.in_stock 
                 ? "bg-gradient-to-r from-[#0066ff] to-[#0099ff] text-white hover:shadow-lg hover:shadow-[#0066ff]/30"
                 : "bg-gray-200 text-gray-500 cursor-not-allowed"
             }`}
-            disabled={!product.inStock}
+            disabled={!product.in_stock}
           >
             <ShoppingCart className="w-4 h-4" />
-            {product.inStock ? "Ajouter" : "Indisponible"}
+            {product.in_stock ? "Ajouter" : "Indisponible"}
           </button>
         </div>
       </div>

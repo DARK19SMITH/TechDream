@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Cpu, Lock, Eye, EyeOff, AlertCircle, ArrowLeft } from "lucide-react";
+import { Cpu, Lock, Eye, EyeOff, AlertCircle, ArrowLeft, Mail } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLoginPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -20,20 +21,32 @@ export default function AdminLoginPage() {
     }
   }, [router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    setTimeout(() => {
-      if (password === "techdream2026") {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         localStorage.setItem("admin_auth", "true");
+        localStorage.setItem("admin_data", JSON.stringify(data.admin));
         router.push("/admin/dashboard");
       } else {
-        setError("Mot de passe incorrect");
-        setIsLoading(false);
+        setError(data.error || "Identifiants invalides");
       }
-    }, 800);
+    } catch {
+      setError("Erreur de connexion");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,7 +87,24 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Mot de passe administrateur
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-[#1a2d4a] border border-[#0066ff]/30 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors font-rajdhani"
+                  placeholder="admin@techdream.fr"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Mot de passe
               </label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -125,7 +155,11 @@ export default function AdminLoginPage() {
 
           <div className="mt-6 p-4 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20">
             <p className="text-gray-400 text-sm text-center font-rajdhani">
-              <span className="text-[#00d4ff]">Démo:</span> Utilisez le mot de passe{" "}
+              <span className="text-[#00d4ff]">Démo:</span> Email{" "}
+              <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
+                admin@techdream.fr
+              </code>
+              {" "}Mot de passe{" "}
               <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
                 techdream2026
               </code>

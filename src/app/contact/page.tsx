@@ -31,12 +31,29 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormState({ name: "", email: "", subject: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 3000);
+        setFormState({ name: "", email: "", subject: "", message: "" });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -127,13 +144,16 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="btn-tech w-full py-4 flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="btn-tech w-full py-4 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {submitted ? (
                     <>
                       <CheckCircle className="w-5 h-5" />
                       Message envoyé !
                     </>
+                  ) : isSubmitting ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <>
                       <Send className="w-5 h-5" />

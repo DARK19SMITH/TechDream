@@ -1,26 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Search, Edit, Trash2, Eye, EyeOff, 
-  X, Save, Calendar, Tag, Image as ImageIcon
+  X, Save, Tag, Image as ImageIcon
 } from "lucide-react";
-import { getAllArticles, addArticle, updateArticle, deleteArticle, Article } from "@/lib/store";
+import { Article } from "@/lib/supabase";
 
 export default function AdminArticlesPage() {
-  const [articles, setArticles] = useState(getAllArticles());
+  const [articles, setArticles] = useState<Article[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     image: "",
     category: "conseil" as Article["category"],
-    date: new Date().toISOString().split("T")[0],
     published: true,
   });
+
+  const fetchArticles = async () => {
+    const res = await fetch("/api/articles");
+    const data = await res.json();
+    setArticles(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
   const filteredArticles = articles.filter((article) =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -32,9 +43,8 @@ export default function AdminArticlesPage() {
       setFormData({
         title: article.title,
         content: article.content,
-        image: article.image,
+        image: article.image || "",
         category: article.category,
-        date: article.date,
         published: article.published,
       });
     } else {
@@ -44,34 +54,53 @@ export default function AdminArticlesPage() {
         content: "",
         image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
         category: "conseil",
-        date: new Date().toISOString().split("T")[0],
         published: true,
       });
     }
     setIsModalOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editingArticle) {
-      updateArticle(editingArticle.id, formData);
+      await fetch(`/api/articles/${editingArticle.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
     } else {
-      addArticle(formData);
+      await fetch("/api/articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
     }
-    setArticles(getAllArticles());
+    fetchArticles();
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
-      deleteArticle(id);
-      setArticles(getAllArticles());
+      await fetch(`/api/articles/${id}`, { method: "DELETE" });
+      fetchArticles();
     }
   };
 
-  const togglePublish = (article: Article) => {
-    updateArticle(article.id, { published: !article.published });
-    setArticles(getAllArticles());
+  const togglePublish = async (article: Article) => {
+    await fetch(`/api/articles/${article.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ published: !article.published }),
+    });
+    fetchArticles();
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen p-6 lg:p-8 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#0066ff]/30 border-t-[#0066ff] rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6 lg:p-8">
@@ -140,7 +169,7 @@ export default function AdminArticlesPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
                       <img
-                        src={article.image}
+                        src={article.image || ""}
                         alt={article.title}
                         className="w-12 h-12 rounded-lg object-cover"
                       />
@@ -160,7 +189,7 @@ export default function AdminArticlesPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {new Date(article.date).toLocaleDateString('fr-FR')}
+                    {new Date(article.created_at).toLocaleDateString('fr-FR')}
                   </td>
                   <td className="px-6 py-4">
                     <button
@@ -276,35 +305,20 @@ export default function AdminArticlesPage() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Tag className="w-4 h-4 inline mr-2" />
-                      Catégorie
-                    </label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    >
-                      <option value="conseil">Conseil</option>
-                      <option value="actualite">Actualité</option>
-                      <option value="astuce">Astuce</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Calendar className="w-4 h-4 inline mr-2" />
-                      Date
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <Tag className="w-4 h-4 inline mr-2" />
+                    Catégorie
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                  >
+                    <option value="conseil">Conseil</option>
+                    <option value="actualite">Actualité</option>
+                    <option value="astuce">Astuce</option>
+                  </select>
                 </div>
 
                 <div className="flex items-center gap-3">
