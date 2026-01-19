@@ -6,7 +6,7 @@ import Link from "next/link";
 import { 
   Cpu, Monitor, Laptop, Gamepad2, Shield, Zap, 
   ChevronRight, ArrowRight, Star, Clock, Users,
-  Sparkles, CircuitBoard, Server, Cloud
+  Sparkles, CircuitBoard, Server, Cloud, Eye
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -21,16 +21,17 @@ const features = [
   { icon: Shield, title: "Sécurité Maximale", desc: "Protection avancée de vos données" },
 ];
 
-const stats = [
-  { value: "10K+", label: "Clients satisfaits", icon: Users },
-  { value: "500+", label: "Produits vendus", icon: Monitor },
-  { value: "24/7", label: "Support technique", icon: Clock },
-  { value: "5★", label: "Note moyenne", icon: Star },
-];
+interface SiteStats {
+  clients: number;
+  products_sold: number;
+  page_views: number;
+  articles_views: number;
+}
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
+  const [siteStats, setSiteStats] = useState<SiteStats>({ clients: 0, products_sold: 0, page_views: 0, articles_views: 0 });
 
   useEffect(() => {
     fetch("/api/products").then(res => res.json()).then(data => setProducts(data.slice(0, 3)));
@@ -38,7 +39,21 @@ export default function HomePage() {
       const published = data.filter((a: Article) => a.published);
       setArticles(published.slice(0, 3));
     });
+    fetch("/api/stats").then(res => res.json()).then(data => setSiteStats(data));
+    
+    fetch("/api/stats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stat_id: "page_views", increment: 1 }),
+    });
   }, []);
+
+  const stats = [
+    { value: siteStats.clients, label: "Clients inscrits", icon: Users },
+    { value: siteStats.products_sold, label: "Produits vendus", icon: Monitor },
+    { value: siteStats.page_views, label: "Vues du site", icon: Eye },
+    { value: siteStats.articles_views, label: "Articles lus", icon: Star },
+  ];
 
   return (
     <main className="min-h-screen">
