@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cpu, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Github } from "lucide-react";
+import { Cpu, Mail, Phone, MapPin, Facebook, MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
@@ -25,9 +25,7 @@ export function Footer() {
                 <div className="flex gap-4 mt-6">
                   {[
                     { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61551706517650" },
-                    { Icon: Twitter, href: "#" },
-                    { Icon: Linkedin, href: "#" },
-                    { Icon: Github, href: "#" }
+                    { Icon: MessageCircle, href: "https://wa.me/2250586973027" }
                   ].map(({ Icon, href }, i) => (
                     <a
                       key={i}
