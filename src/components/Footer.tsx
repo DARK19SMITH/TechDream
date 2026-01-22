@@ -22,17 +22,24 @@ export function Footer() {
               <p className="text-gray-400 font-rajdhani text-lg leading-relaxed">
                 Votre partenaire technologique pour des solutions informatiques innovantes et performantes.
               </p>
-              <div className="flex gap-4 mt-6">
-                {[Facebook, Twitter, Linkedin, Github].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center hover:bg-[#0066ff] transition-colors group"
-                  >
-                    <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                  </a>
-                ))}
-              </div>
+                <div className="flex gap-4 mt-6">
+                  {[
+                    { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61551706517650" },
+                    { Icon: Twitter, href: "#" },
+                    { Icon: Linkedin, href: "#" },
+                    { Icon: Github, href: "#" }
+                  ].map(({ Icon, href }, i) => (
+                    <a
+                      key={i}
+                      href={href}
+                      target={href !== "#" ? "_blank" : undefined}
+                      rel={href !== "#" ? "noopener noreferrer" : undefined}
+                      className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center hover:bg-[#0066ff] transition-colors group"
+                    >
+                      <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                    </a>
+                  ))}
+                </div>
             </div>
 
             <div>
