@@ -96,7 +96,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 rounded-xl bg-[#1a2d4a] border border-[#0066ff]/30 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors font-rajdhani"
-                  placeholder="admin@techdream.fr"
+                    placeholder="patrikouadio10@gmail.com"
                   required
                 />
               </div>
@@ -153,18 +153,18 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 p-4 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20">
-            <p className="text-gray-400 text-sm text-center font-rajdhani">
-              <span className="text-[#00d4ff]">Démo:</span> Email{" "}
-              <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
-                admin@techdream.fr
-              </code>
-              {" "}Mot de passe{" "}
-              <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
-                techdream2026
-              </code>
-            </p>
-          </div>
+            <div className="mt-6 p-4 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20">
+              <p className="text-gray-400 text-sm text-center font-rajdhani">
+                <span className="text-[#00d4ff]">Démo:</span> Email{" "}
+                <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
+                  patrikouadio10@gmail.com
+                </code>
+                {" "}Mot de passe{" "}
+                <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
+                  techdream2026
+                </code>
+              </p>
+            </div>
         </div>
       </motion.div>
     </main>

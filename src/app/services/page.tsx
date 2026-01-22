@@ -169,18 +169,18 @@ export default function ServicesPage() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a 
-                href="tel:+33123456789"
+                href="tel:+2250586973027"
                 className="flex items-center gap-3 px-8 py-4 bg-white text-[#0066ff] rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 <Phone className="w-5 h-5" />
-                +33 1 23 45 67 89
+                +225 0586973027
               </a>
               <a 
-                href="mailto:contact@techdream.fr"
+                href="mailto:patrikouadio10@gmail.com"
                 className="flex items-center gap-3 px-8 py-4 border-2 border-[#00d4ff] text-[#00d4ff] rounded-lg font-semibold hover:bg-[#00d4ff]/10 transition-colors"
               >
                 <Mail className="w-5 h-5" />
-                contact@techdream.fr
+                patrikouadio10@gmail.com
               </a>
             </div>
           </motion.div>

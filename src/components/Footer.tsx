@@ -75,12 +75,12 @@ export function Footer() {
                     </div>
                     <span className="font-rajdhani">Abidjan, Côte d'Ivoire</span>
                   </li>
-                  <li className="flex items-center gap-3 text-gray-400">
-                    <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                      <Phone className="w-5 h-5 text-[#0066ff]" />
-                    </div>
-                    <span className="font-rajdhani">0586973027</span>
-                  </li>
+                    <li className="flex items-center gap-3 text-gray-400">
+                      <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                        <Phone className="w-5 h-5 text-[#0066ff]" />
+                      </div>
+                      <span className="font-rajdhani">+225 0586973027</span>
+                    </li>
                   <li className="flex items-center gap-3 text-gray-400">
                     <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
                       <Mail className="w-5 h-5 text-[#0066ff]" />

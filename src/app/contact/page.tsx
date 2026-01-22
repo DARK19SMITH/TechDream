@@ -10,10 +10,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 const contactInfo = [
-  { icon: User, label: "Responsable", value: "Patrick Kouadio" },
-  { icon: MapPin, label: "Adresse", value: "Abidjan, Côte d'Ivoire" },
-  { icon: Phone, label: "Téléphone", value: "0586973027" },
-  { icon: Mail, label: "Email", value: "patrikouadio10@gmail.com" },
+    { icon: User, label: "Responsable", value: "Patrick Kouadio" },
+    { icon: MapPin, label: "Adresse", value: "Abidjan, Côte d'Ivoire" },
+    { icon: Phone, label: "Téléphone", value: "+225 0586973027" },
+    { icon: Mail, label: "Email", value: "patrikouadio10@gmail.com" },
   { icon: Clock, label: "Horaires", value: "Lun-Ven: 9h-18h" },
 ];
 

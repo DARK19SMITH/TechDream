@@ -26,7 +26,7 @@ Site de vente et de conseil informatique "Tech Dream" proposant des solutions te
 - **Contact Officiel**:
   - Responsable: Patrick Kouadio
   - Email: patrikouadio10@gmail.com
-  - Téléphone: 0586973027
+    - Téléphone: +225 0586973027
   - Localisation: Abidjan, Côte d'Ivoire
 
 ## Common Patterns
