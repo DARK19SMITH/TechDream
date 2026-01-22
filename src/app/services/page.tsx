@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { 
   Wrench, Shield, Zap, Cloud, Monitor, Headphones,
-  CheckCircle, ArrowRight, Phone, Mail
+  CheckCircle, Phone, Mail
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -145,11 +145,6 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-
-                <button className="mt-6 w-full py-3 rounded-lg border border-[#0066ff]/30 text-[#0066ff] hover:bg-[#0066ff] hover:text-white transition-all font-medium flex items-center justify-center gap-2">
-                  En savoir plus
-                  <ArrowRight className="w-4 h-4" />
-                </button>
               </motion.div>
             ))}
           </div>
