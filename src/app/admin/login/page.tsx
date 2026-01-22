@@ -72,13 +72,15 @@ export default function AdminLoginPage() {
         </Link>
 
         <div className="glass-dark rounded-2xl p-8 border-glow">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto rounded-xl bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center mb-6 pulse-glow">
-              <Cpu className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="font-orbitron text-3xl font-bold text-white mb-2">
-              Administration
-            </h1>
+            <div className="text-center mb-8">
+              <img 
+                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                alt="Tech Dream Logo" 
+                className="h-24 w-auto mx-auto object-contain mb-6 hover:scale-110 transition-transform"
+              />
+              <h1 className="font-orbitron text-3xl font-bold text-white mb-2">
+                Administration
+              </h1>
             <p className="text-gray-400 font-rajdhani">
               Connectez-vous pour accéder au back-office
             </p>

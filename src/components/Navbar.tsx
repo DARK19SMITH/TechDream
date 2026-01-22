@@ -20,17 +20,13 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center pulse-glow">
-                <Cpu className="w-6 h-6 text-white" />
-              </div>
-              <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] opacity-0 group-hover:opacity-30 blur transition-opacity" />
-            </div>
-            <span className="font-orbitron font-bold text-xl bg-gradient-to-r from-[#0066ff] to-[#00d4ff] bg-clip-text text-transparent">
-              Tech Dream
-            </span>
-          </Link>
+            <Link href="/" className="flex items-center group">
+                <img 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                  alt="Tech Dream Logo" 
+                  className="h-14 w-auto object-contain hover:scale-105 transition-transform"
+                />
+            </Link>
 
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
