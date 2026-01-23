@@ -21,11 +21,11 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
                 <Link href="/" className="flex items-center group">
-                    <img 
-                      src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
-                      alt="Tech Dream Logo" 
-                      className="h-14 w-auto object-contain hover:scale-105 transition-transform"
-                    />
+                      <img 
+                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                        alt="Tech Dream Logo" 
+                        className="h-24 w-auto object-contain hover:scale-105 transition-transform"
+                      />
                 </Link>
 
           <div className="hidden md:flex items-center gap-1">
