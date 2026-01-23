@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cpu, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Github } from "lucide-react";
+import { Cpu, Mail, Phone, MapPin, Facebook, MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
@@ -13,26 +13,32 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center">
-                  <Cpu className="w-7 h-7 text-white" />
-                </div>
-                <span className="font-orbitron font-bold text-2xl">Tech Dream</span>
-              </div>
+                      <Link href="/" className="inline-block mb-6 group">
+                        <img 
+                          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                          alt="Tech Dream Logo" 
+                          className="h-32 w-auto object-contain hover:scale-105 transition-transform"
+                        />
+                      </Link>
               <p className="text-gray-400 font-rajdhani text-lg leading-relaxed">
                 Votre partenaire technologique pour des solutions informatiques innovantes et performantes.
               </p>
-              <div className="flex gap-4 mt-6">
-                {[Facebook, Twitter, Linkedin, Github].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center hover:bg-[#0066ff] transition-colors group"
-                  >
-                    <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                  </a>
-                ))}
-              </div>
+                <div className="flex gap-4 mt-6">
+                  {[
+                    { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61551706517650" },
+                    { Icon: MessageCircle, href: "https://wa.me/2250586973027" }
+                  ].map(({ Icon, href }, i) => (
+                    <a
+                      key={i}
+                      href={href}
+                      target={href !== "#" ? "_blank" : undefined}
+                      rel={href !== "#" ? "noopener noreferrer" : undefined}
+                      className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center hover:bg-[#0066ff] transition-colors group"
+                    >
+                      <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                    </a>
+                  ))}
+                </div>
             </div>
 
             <div>
@@ -69,24 +75,24 @@ export function Footer() {
             <div>
               <h3 className="font-orbitron font-semibold text-lg mb-6 text-[#00d4ff]">Contact</h3>
               <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-[#0066ff]" />
-                  </div>
-                  <span className="font-rajdhani">123 Avenue Tech, Paris</span>
-                </li>
-                <li className="flex items-center gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-[#0066ff]" />
-                  </div>
-                  <span className="font-rajdhani">+33 1 23 45 67 89</span>
-                </li>
-                <li className="flex items-center gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-[#0066ff]" />
-                  </div>
-                  <span className="font-rajdhani">contact@techdream.fr</span>
-                </li>
+                  <li className="flex items-center gap-3 text-gray-400">
+                    <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-[#0066ff]" />
+                    </div>
+                    <span className="font-rajdhani">Abidjan, Côte d'Ivoire</span>
+                  </li>
+                    <li className="flex items-center gap-3 text-gray-400">
+                      <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                        <Phone className="w-5 h-5 text-[#0066ff]" />
+                      </div>
+                      <span className="font-rajdhani">+225 0586973027</span>
+                    </li>
+                  <li className="flex items-center gap-3 text-gray-400">
+                    <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                      <Mail className="w-5 h-5 text-[#0066ff]" />
+                    </div>
+                    <span className="font-rajdhani">patrikouadio10@gmail.com</span>
+                  </li>
               </ul>
             </div>
           </div>

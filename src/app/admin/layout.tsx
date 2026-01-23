@@ -49,25 +49,33 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="absolute inset-0 circuit-pattern opacity-20" />
         
         <div className="relative z-10 h-full flex flex-col">
-          <div className="p-6 border-b border-[rgba(0,102,255,0.2)]">
-            <Link href="/admin/dashboard" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center flex-shrink-0">
-                <Cpu className="w-6 h-6 text-white" />
-              </div>
-              <AnimatePresence>
-                {sidebarOpen && (
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="font-orbitron font-bold text-white text-lg"
-                  >
-                    Tech Dream
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
-          </div>
+            <div className="p-6 border-b border-[rgba(0,102,255,0.2)]">
+              <Link href="/admin/dashboard" className="flex items-center">
+                <AnimatePresence mode="wait">
+                  {sidebarOpen ? (
+                    <motion.img
+                      key="logo-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain"
+                      alt="Tech Dream Logo"
+                      className="h-12 w-auto object-contain"
+                    />
+                  ) : (
+                    <motion.div
+                      key="logo-collapsed"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center flex-shrink-0"
+                    >
+                      <Cpu className="w-6 h-6 text-white" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Link>
+            </div>
 
           <nav className="flex-1 p-4 space-y-2">
             {navItems.map((item) => {
@@ -130,13 +138,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a1628] z-50 flex items-center justify-between px-4">
-        <Link href="/admin/dashboard" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center">
-            <Cpu className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-orbitron font-bold text-white">Admin</span>
-        </Link>
+        <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a1628] z-50 flex items-center justify-between px-4">
+          <Link href="/admin/dashboard" className="flex items-center">
+            <img 
+              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+              alt="Tech Dream Logo" 
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-2 text-white"

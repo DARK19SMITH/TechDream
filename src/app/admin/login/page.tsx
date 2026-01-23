@@ -72,13 +72,15 @@ export default function AdminLoginPage() {
         </Link>
 
         <div className="glass-dark rounded-2xl p-8 border-glow">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto rounded-xl bg-gradient-to-br from-[#0066ff] to-[#00d4ff] flex items-center justify-center mb-6 pulse-glow">
-              <Cpu className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="font-orbitron text-3xl font-bold text-white mb-2">
-              Administration
-            </h1>
+            <div className="text-center mb-8">
+              <img 
+                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                alt="Tech Dream Logo" 
+                className="h-24 w-auto mx-auto object-contain mb-6 hover:scale-110 transition-transform"
+              />
+              <h1 className="font-orbitron text-3xl font-bold text-white mb-2">
+                Administration
+              </h1>
             <p className="text-gray-400 font-rajdhani">
               Connectez-vous pour accéder au back-office
             </p>
@@ -96,7 +98,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 rounded-xl bg-[#1a2d4a] border border-[#0066ff]/30 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00d4ff] transition-colors font-rajdhani"
-                  placeholder="admin@techdream.fr"
+                    placeholder="patrikouadio10@gmail.com"
                   required
                 />
               </div>
@@ -153,18 +155,18 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 p-4 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20">
-            <p className="text-gray-400 text-sm text-center font-rajdhani">
-              <span className="text-[#00d4ff]">Démo:</span> Email{" "}
-              <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
-                admin@techdream.fr
-              </code>
-              {" "}Mot de passe{" "}
-              <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
-                techdream2026
-              </code>
-            </p>
-          </div>
+            <div className="mt-6 p-4 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20">
+              <p className="text-gray-400 text-sm text-center font-rajdhani">
+                <span className="text-[#00d4ff]">Démo:</span> Email{" "}
+                <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
+                  patrikouadio10@gmail.com
+                </code>
+                {" "}Mot de passe{" "}
+                <code className="px-2 py-1 rounded bg-[#1a2d4a] text-[#00d4ff] text-xs">
+                  techdream2026
+                </code>
+              </p>
+            </div>
         </div>
       </motion.div>
     </main>

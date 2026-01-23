@@ -4,15 +4,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   MapPin, Phone, Mail, Clock, Send, 
-  CheckCircle, Cpu, Users, Award, Target
+  CheckCircle, Cpu, Users, Award, Target, User
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 const contactInfo = [
-  { icon: MapPin, label: "Adresse", value: "123 Avenue Tech, 75001 Paris" },
-  { icon: Phone, label: "Téléphone", value: "+33 1 23 45 67 89" },
-  { icon: Mail, label: "Email", value: "contact@techdream.fr" },
+    { icon: User, label: "Responsable", value: "Patrick Kouadio" },
+    { icon: MapPin, label: "Adresse", value: "Abidjan, Côte d'Ivoire" },
+    { icon: Phone, label: "Téléphone", value: "+225 0586973027" },
+    { icon: Mail, label: "Email", value: "patrikouadio10@gmail.com" },
   { icon: Clock, label: "Horaires", value: "Lun-Ven: 9h-18h" },
 ];
 
@@ -194,10 +195,10 @@ export default function ContactPage() {
                 <h3 className="font-orbitron text-xl font-semibold text-[#0a1628] mb-4">
                   À Propos de Tech Dream
                 </h3>
-                <p className="text-gray-600 font-rajdhani mb-6 leading-relaxed">
-                  Depuis 2016, Tech Dream accompagne les professionnels et particuliers dans leurs projets informatiques. 
-                  Notre équipe d&apos;experts passionnés s&apos;engage à fournir des solutions innovantes et un service client d&apos;exception.
-                </p>
+                  <p className="text-gray-600 font-rajdhani mb-6 leading-relaxed">
+                    Sous la direction de Patrick Kouadio, Tech Dream accompagne les professionnels et particuliers dans leurs projets informatiques. 
+                    Notre équipe d&apos;experts passionnés s&apos;engage à fournir des solutions innovantes et un service client d&apos;exception.
+                  </p>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {values.map((value, i) => (
