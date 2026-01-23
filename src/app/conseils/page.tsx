@@ -47,7 +47,7 @@ export default function ConseilsPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
 
-      <section className="relative pt-24 pb-16 bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-[#0a1628] overflow-hidden">
+      <section className="relative pt-40 pb-16 bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-[#0a1628] overflow-hidden">
         <div className="absolute inset-0 circuit-pattern opacity-30" />
         <div className="absolute inset-0 data-grid opacity-20" />
         

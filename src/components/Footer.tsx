@@ -13,13 +13,13 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div>
-                <Link href="/" className="inline-block mb-6 group">
-                  <img 
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
-                    alt="Tech Dream Logo" 
-                    className="h-20 w-auto object-contain hover:scale-105 transition-transform"
-                  />
-                </Link>
+                    <Link href="/" className="inline-block mb-6 group">
+                      <img 
+                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/36d710f0-fe77-426c-9d73-34029f901c05/td-2x-resized-1769125755079.webp?width=8000&height=8000&resize=contain" 
+                        alt="Tech Dream Logo" 
+                        className="h-20 w-auto object-contain hover:scale-105 transition-transform"
+                      />
+                    </Link>
               <p className="text-gray-400 font-rajdhani text-lg leading-relaxed">
                 Votre partenaire technologique pour des solutions informatiques innovantes et performantes.
               </p>
