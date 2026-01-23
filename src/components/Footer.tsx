@@ -104,14 +104,14 @@ export function Footer() {
               <p className="text-gray-500 font-rajdhani text-sm">
                 © 2026 Tech Dream. Tous droits réservés.
               </p>
-              <div className="flex items-center gap-6">
-                <Link href="#" className="text-gray-500 hover:text-[#00d4ff] text-sm font-rajdhani transition-colors">
-                  Mentions légales
-                </Link>
-                <Link href="#" className="text-gray-500 hover:text-[#00d4ff] text-sm font-rajdhani transition-colors">
-                  Politique de confidentialité
-                </Link>
-              </div>
+                <div className="flex items-center gap-6">
+                  <Link href="/mentions-legales" className="text-gray-500 hover:text-[#00d4ff] text-sm font-rajdhani transition-colors">
+                    Mentions légales
+                  </Link>
+                  <Link href="/politique-de-confidentialite" className="text-gray-500 hover:text-[#00d4ff] text-sm font-rajdhani transition-colors">
+                    Politique de confidentialité
+                  </Link>
+                </div>
             </div>
           </div>
         </div>
