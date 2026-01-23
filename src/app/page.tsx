@@ -22,8 +22,6 @@ const features = [
 ];
 
 interface SiteStats {
-  clients: number;
-  products_sold: number;
   page_views: number;
   articles_views: number;
 }
@@ -31,7 +29,7 @@ interface SiteStats {
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [siteStats, setSiteStats] = useState<SiteStats>({ clients: 0, products_sold: 0, page_views: 0, articles_views: 0 });
+  const [siteStats, setSiteStats] = useState<SiteStats>({ page_views: 0, articles_views: 0 });
 
   useEffect(() => {
     fetch("/api/products").then(res => res.json()).then(data => setProducts(data.slice(0, 3)));
@@ -49,8 +47,6 @@ export default function HomePage() {
   }, []);
 
   const stats = [
-    { value: siteStats.clients, label: "Clients inscrits", icon: Users },
-    { value: siteStats.products_sold, label: "Produits vendus", icon: Monitor },
     { value: siteStats.page_views, label: "Vues du site", icon: Eye },
     { value: siteStats.articles_views, label: "Articles lus", icon: Star },
   ];
@@ -107,7 +103,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6"
+            className="mt-20 grid grid-cols-2 gap-6 max-w-2xl mx-auto"
           >
             {stats.map((stat, i) => (
               <div key={i} className="glass-dark rounded-xl p-6 text-center">
