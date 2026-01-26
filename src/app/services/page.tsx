@@ -5,6 +5,8 @@ import {
   Wrench, Shield, Zap, Cloud, Monitor, Headphones,
   CheckCircle, Phone, Mail, Palette, Video, Printer
 } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const services = [
   {

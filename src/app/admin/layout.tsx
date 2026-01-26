@@ -6,13 +6,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Cpu, LayoutDashboard, FileText, Lightbulb, LogOut, 
-  Menu, X, ChevronRight 
+  Menu, X, ChevronRight, Mail 
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
   { href: "/admin/articles", label: "Articles", icon: FileText },
   { href: "/admin/conseils", label: "Conseils", icon: Lightbulb },
+  { href: "/admin/messages", label: "Messages", icon: Mail },
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
