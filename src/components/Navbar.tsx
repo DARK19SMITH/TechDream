@@ -42,13 +42,6 @@ export function Navbar() {
                 <span className="absolute inset-0 bg-gradient-to-r from-[#0066ff]/10 to-[#00d4ff]/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
             ))}
-            <Link
-              href="/admin/login"
-              className="ml-4 btn-tech text-sm flex items-center gap-2"
-            >
-              <LogIn className="w-4 h-4" />
-              Admin
-            </Link>
           </div>
 
           <button
@@ -69,26 +62,18 @@ export function Navbar() {
             className="md:hidden glass-light border-t border-[rgba(0,102,255,0.15)]"
           >
             <div className="px-4 py-4 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-[#0a1628] hover:bg-[#0066ff]/10 rounded-lg transition-colors"
-                >
-                  <link.icon className="w-5 h-5 text-[#0066ff]" />
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/admin/login"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#0066ff] to-[#0099ff] text-white rounded-lg"
-              >
-                <LogIn className="w-5 h-5" />
-                Admin
-              </Link>
-            </div>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-[#0a1628] hover:bg-[#0066ff]/10 rounded-lg transition-colors"
+                  >
+                    <link.icon className="w-5 h-5 text-[#0066ff]" />
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
           </motion.div>
         )}
       </AnimatePresence>
