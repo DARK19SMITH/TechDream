@@ -12,8 +12,8 @@ import { Footer } from "@/components/Footer";
 const contactInfo = [
     { icon: User, label: "Propriétaire", value: "Patrick Kouadio" },
     { icon: MapPin, label: "Adresse", value: "Abidjan, Côte d'Ivoire" },
-    { icon: Phone, label: "Téléphone", value: "+225 0160010377" },
-    { icon: Mail, label: "Email", value: "Koffreddy@gmail.com" },
+    { icon: Phone, label: "Téléphone", value: "+225 0586973027" },
+    { icon: Mail, label: "Email", value: "patrikouadio10@gmail.com" },
   { icon: Clock, label: "Horaires", value: "Lun-Ven: 9h-18h" },
 ];
 
@@ -21,7 +21,7 @@ const values = [
   { icon: Target, title: "Innovation", desc: "Toujours à la pointe de la technologie" },
   { icon: Users, title: "Proximité", desc: "Un accompagnement personnalisé" },
   { icon: Award, title: "Excellence", desc: "Des standards de qualité élevés" },
-  { icon: Cpu, title: "Expertise", desc: "10 ans d'expérience dans le secteur" },
+    { icon: Cpu, title: "Expertise", desc: "7 ans d'expérience dans le secteur" },
 ];
 
 export default function ContactPage() {

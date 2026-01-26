@@ -26,7 +26,7 @@ export function Footer() {
               <div className="flex gap-4 mt-6">
                 {[
                   { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61551706517650" },
-                  { Icon: MessageCircle, href: "https://wa.me/2250160010377" }
+                  { Icon: MessageCircle, href: "https://wa.me/2250586973027" }
                 ].map(({ Icon, href }, i) => (
                   <a
                     key={i}
@@ -81,18 +81,18 @@ export function Footer() {
                   </div>
                   <span className="font-rajdhani">Abidjan, Côte d'Ivoire</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-[#0066ff]" />
-                  </div>
-                  <span className="font-rajdhani">+225 0160010377</span>
-                </li>
-                <li className="flex items-center gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-[#0066ff]" />
-                  </div>
-                  <span className="font-rajdhani">Koffreddy@gmail.com</span>
-                </li>
+                  <li className="flex items-center gap-3 text-gray-400">
+                    <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                      <Phone className="w-5 h-5 text-[#0066ff]" />
+                    </div>
+                    <span className="font-rajdhani">+225 0586973027</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-400">
+                    <div className="w-10 h-10 rounded-lg bg-[#1a2d4a] flex items-center justify-center">
+                      <Mail className="w-5 h-5 text-[#0066ff]" />
+                    </div>
+                    <span className="font-rajdhani">patrikouadio10@gmail.com</span>
+                  </li>
               </ul>
             </div>
           </div>

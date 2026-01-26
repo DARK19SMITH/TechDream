@@ -28,8 +28,8 @@ export default function MentionsLegales() {
                     <p>
                       Le site Tech Dream est édité par Patrick Kouadio.<br />
                       Siège social : Abidjan, Côte d'Ivoire.<br />
-                      Téléphone : +225 0160010377<br />
-                      Email : Koffreddy@gmail.com
+                        Téléphone : +225 0586973027<br />
+                        Email : patrikouadio10@gmail.com
                     </p>
                   </section>
 
