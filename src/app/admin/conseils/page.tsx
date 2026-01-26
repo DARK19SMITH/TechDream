@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Search, Edit, Trash2, Eye, EyeOff, 
   X, Save, Tag, Image as ImageIcon,
-  Lightbulb
+  Lightbulb, Upload
 } from "lucide-react";
-import { Article } from "@/lib/supabase";
+import { Article, supabase } from "@/lib/supabase";
 
 export default function AdminConseilsPage() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -15,6 +15,7 @@ export default function AdminConseilsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -34,6 +35,35 @@ export default function AdminConseilsPage() {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `articles/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('images')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, image: publicUrl });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Erreur lors du téléversement de l\'image');
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const filteredArticles = articles.filter((article) =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -261,49 +291,83 @@ export default function AdminConseilsPage() {
                 </button>
               </div>
 
-              <div className="p-6 space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Titre du conseil
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    placeholder="Ex: Comment optimiser son PC pour les jeux"
-                  />
-                </div>
+                <div className="p-6 space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Titre du conseil
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                      placeholder="Ex: Comment optimiser son PC pour les jeux"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contenu
-                  </label>
-                  <textarea
-                    value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    rows={6}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani resize-none"
-                    placeholder="Décrivez votre conseil en détail..."
-                  />
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Contenu
+                    </label>
+                    <textarea
+                      value={formData.content}
+                      onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                      rows={6}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani resize-none"
+                      placeholder="Décrivez votre conseil en détail..."
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <ImageIcon className="w-4 h-4 inline mr-2" />
-                    Image de couverture (URL)
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    placeholder="https://..."
-                  />
-                  {formData.image && (
-                    <img src={formData.image} alt="Preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
-                  )}
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <ImageIcon className="w-4 h-4 inline mr-2" />
+                      Image de couverture
+                    </label>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-4">
+                        <div className="relative flex-1">
+                          <input
+                            type="text"
+                            value={formData.image}
+                            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani pr-12"
+                            placeholder="URL de l'image ou téléversez-en une..."
+                          />
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                            <ImageIcon className="w-5 h-5 text-gray-400" />
+                          </div>
+                        </div>
+                        <label className={`cursor-pointer flex items-center gap-2 px-4 py-3 rounded-xl border-2 border-dashed transition-all ${
+                          isUploading 
+                            ? "bg-gray-50 border-gray-300 text-gray-400" 
+                            : "bg-[#0066ff]/5 border-[#0066ff]/20 text-[#0066ff] hover:bg-[#0066ff]/10"
+                        }`}>
+                          <Upload className={`w-5 h-5 ${isUploading ? "animate-bounce" : ""}`} />
+                          <span className="font-medium whitespace-nowrap">
+                            {isUploading ? "Téléversement..." : "Téléverser"}
+                          </span>
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            disabled={isUploading}
+                          />
+                        </label>
+                      </div>
+                      {formData.image && (
+                        <div className="relative rounded-xl overflow-hidden border border-gray-100 group">
+                          <img src={formData.image} alt="Preview" className="w-full h-48 object-cover" />
+                          <button
+                            onClick={() => setFormData({ ...formData, image: "" })}
+                            className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
