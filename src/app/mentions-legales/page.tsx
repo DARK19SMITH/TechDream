@@ -23,42 +23,47 @@ export default function MentionsLegales() {
             </h1>
 
             <div className="space-y-8 text-gray-300 font-rajdhani text-lg leading-relaxed">
+                  <section>
+                    <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">1. Éditeur du Site</h2>
+                    <p>
+                      Le site Tech Dream est édité par Patrick Kouadio.<br />
+                      Siège social : Abidjan, Côte d'Ivoire.<br />
+                      Téléphone : +225 0160010377<br />
+                      Email : Koffreddy@gmail.com
+                    </p>
+                  </section>
+
+                  <section>
+                    <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">2. Responsable de Publication</h2>
+                    <p>Patrick Kouadio</p>
+                  </section>
+
                 <section>
-                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">1. Éditeur du Site</h2>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">3. Réalisation du Site</h2>
+                  <p>Miguel Koffi</p>
+                </section>
+
+                <section>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">4. Hébergement</h2>
                   <p>
-                    Le site Tech Dream est édité par Miguel Koffi.<br />
-                    Siège social : Abidjan, Côte d'Ivoire.<br />
-                    Téléphone : +225 0160010377<br />
-                    Email : Koffreddy@gmail.com
+                    Ce site est hébergé par Vercel Inc.<br />
+                    Adresse : 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
                   </p>
                 </section>
 
                 <section>
-                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">2. Responsable de Publication</h2>
-                  <p>Miguel Koffi</p>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">5. Propriété Intellectuelle</h2>
+                  <p>
+                    L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes) est la propriété exclusive de Patrick Kouadio (Tech Dream), sauf mentions contraires. Toute reproduction, distribution, modification ou adaptation de ces éléments est strictement interdite sans l'accord écrit préalable de l'éditeur.
+                  </p>
                 </section>
 
-              <section>
-                <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">3. Hébergement</h2>
-                <p>
-                  Ce site est hébergé par Vercel Inc.<br />
-                  Adresse : 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">4. Propriété Intellectuelle</h2>
-                <p>
-                  L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes) est la propriété exclusive de Tech Dream, sauf mentions contraires. Toute reproduction, distribution, modification ou adaptation de ces éléments est strictement interdite sans l'accord écrit préalable de l'éditeur.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">5. Limitation de Responsabilité</h2>
-                <p>
-                  Tech Dream s'efforce de fournir des informations aussi précises que possible. Toutefois, l'éditeur ne pourra être tenu responsable des omissions ou des inexactitudes dans la mise à jour des informations, qu'elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.
-                </p>
-              </section>
+                <section>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">6. Limitation de Responsabilité</h2>
+                  <p>
+                    Tech Dream s'efforce de fournir des informations aussi précises que possible. Toutefois, l'éditeur ne pourra être tenu responsable des omissions ou des inexactitudes dans la mise à jour des informations, qu'elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.
+                  </p>
+                </section>
             </div>
           </motion.div>
         </div>

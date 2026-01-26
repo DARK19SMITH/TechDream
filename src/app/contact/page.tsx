@@ -10,7 +10,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 const contactInfo = [
-    { icon: User, label: "Responsable", value: "Miguel Koffi" },
+    { icon: User, label: "Propriétaire", value: "Patrick Kouadio" },
     { icon: MapPin, label: "Adresse", value: "Abidjan, Côte d'Ivoire" },
     { icon: Phone, label: "Téléphone", value: "+225 0160010377" },
     { icon: Mail, label: "Email", value: "Koffreddy@gmail.com" },
@@ -191,14 +191,14 @@ export default function ContactPage() {
                 </div>
               </div>
 
-                <div className="card-tech p-6 bg-gradient-to-br from-[#0066ff]/5 to-[#00d4ff]/5">
-                  <h3 className="font-orbitron text-xl font-semibold text-[#0a1628] mb-4">
-                    À Propos de Tech Dream
-                  </h3>
-                    <p className="text-gray-600 font-rajdhani mb-6 leading-relaxed">
-                      Sous la direction de Miguel Koffi, créateur du site, Tech Dream accompagne les professionnels et particuliers dans leurs projets informatiques. 
-                      Notre équipe d&apos;experts passionnés s&apos;engage à fournir des solutions innovantes et un service client d&apos;exception.
-                    </p>
+                  <div className="card-tech p-6 bg-gradient-to-br from-[#0066ff]/5 to-[#00d4ff]/5">
+                    <h3 className="font-orbitron text-xl font-semibold text-[#0a1628] mb-4">
+                      À Propos de Tech Dream
+                    </h3>
+                      <p className="text-gray-600 font-rajdhani mb-6 leading-relaxed">
+                        Propriété de Patrick Kouadio et conçu par Miguel Koffi, Tech Dream accompagne les professionnels et particuliers dans leurs projets informatiques. 
+                        Notre équipe d&apos;experts passionnés s&apos;engage à fournir des solutions innovantes et un service client d&apos;exception.
+                      </p>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {values.map((value, i) => (

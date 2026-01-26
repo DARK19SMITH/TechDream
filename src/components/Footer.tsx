@@ -101,9 +101,10 @@ export function Footer() {
         <div className="border-t border-[rgba(0,102,255,0.2)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-gray-500 font-rajdhani text-sm">
-                © 2026 Tech Dream. Tous droits réservés.
-              </p>
+                <p className="text-gray-500 font-rajdhani text-sm">
+                  © 2026 Tech Dream. Propriété de Patrick Kouadio. <br className="md:hidden" />
+                  Conçu par <span className="text-[#00d4ff]">Miguel Koffi</span>
+                </p>
               <div className="flex items-center gap-6">
                 <Link href="/mentions-legales" className="text-gray-500 hover:text-[#00d4ff] text-sm font-rajdhani transition-colors">
                   Mentions légales

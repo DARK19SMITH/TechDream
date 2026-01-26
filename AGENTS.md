@@ -24,7 +24,8 @@ Site de vente et de conseil informatique "Tech Dream" proposant des solutions te
 - Pas de commentaires dans le code sauf demande explicite.
 - Maintenir une cohérence visuelle avec les variables CSS définies (bleu tech, dégradés).
     - **Contact Officiel**:
-      - Responsable: Miguel Koffi
+      - Propriétaire: Patrick Kouadio
+      - Développeur/Créateur: Miguel Koffi
       - Email: Koffreddy@gmail.com
       - Téléphone: +225 0160010377
       - Localisation: Abidjan, Côte d'Ivoire
