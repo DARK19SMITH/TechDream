@@ -40,7 +40,11 @@ export default function MentionsLegales() {
 
                 <section>
                   <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">3. Réalisation du Site</h2>
-                  <p>Miguel Koffi</p>
+                  <p>
+                    Miguel Koffi<br />
+                    Téléphone : +225 0160010377<br />
+                    Email : koffreddy@gmail.com
+                  </p>
                 </section>
 
                 <section>

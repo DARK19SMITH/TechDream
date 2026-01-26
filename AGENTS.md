@@ -23,14 +23,16 @@ Site de vente et de conseil informatique "Tech Dream" proposant des solutions te
 ## Project Guidelines
 - Pas de commentaires dans le code sauf demande explicite.
 - Maintenir une cohérence visuelle avec les variables CSS définies (bleu tech, dégradés).
-    - **Contact Officiel**:
-      - Propriétaire: Patrick Kouadio
-      - Développeur/Créateur: Miguel Koffi
-      - Email: patrikouadio10@gmail.com
-      - Téléphone: +225 0586973027
+    - **Contacts**:
+      - **Propriétaire**: Patrick Kouadio
+        - Email: patrikouadio10@gmail.com
+        - Téléphone: +225 0586973027
+      - **Réalisation (Miguel Koffi)**:
+        - Email: koffreddy@gmail.com
+        - Téléphone: +225 0160010377
       - Localisation: Abidjan, Côte d'Ivoire
       - Facebook: https://www.facebook.com/profile.php?id=61551706517650
-      - WhatsApp: https://wa.me/2250586973027
+      - WhatsApp (Patrick): https://wa.me/2250586973027
 
 
 ## Common Patterns
