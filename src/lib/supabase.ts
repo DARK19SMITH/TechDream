@@ -21,6 +21,7 @@ export interface Article {
   image: string | null;
   category: 'conseil' | 'actualite' | 'astuce';
   published: boolean;
+  price: number;
   created_at: string;
   updated_at: string;
 }

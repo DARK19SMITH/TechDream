@@ -15,13 +15,14 @@ export default function AdminArticlesPage() {
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    image: "",
-    category: "conseil" as Article["category"],
-    published: true,
-  });
+    const [formData, setFormData] = useState({
+      title: "",
+      content: "",
+      image: "",
+      category: "conseil" as Article["category"],
+      published: true,
+      price: 0,
+    });
 
   const fetchArticles = async () => {
     const res = await fetch("/api/articles");
@@ -76,6 +77,7 @@ export default function AdminArticlesPage() {
         image: article.image || "",
         category: article.category,
         published: article.published,
+        price: article.price || 0,
       });
     } else {
       setEditingArticle(null);
@@ -85,6 +87,7 @@ export default function AdminArticlesPage() {
         image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
         category: "conseil",
         published: true,
+        price: 0,
       });
     }
     setIsModalOpen(true);
@@ -185,10 +188,11 @@ export default function AdminArticlesPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Article</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Catégorie</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Date</th>
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Article</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Catégorie</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Prix</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Date</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Statut</th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-gray-600">Actions</th>
               </tr>
@@ -209,15 +213,18 @@ export default function AdminArticlesPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      article.category === "conseil" ? "bg-[#0066ff]/10 text-[#0066ff]" :
-                      article.category === "actualite" ? "bg-[#00d4ff]/10 text-[#00d4ff]" :
-                      "bg-purple-100 text-purple-600"
-                    }`}>
-                      {article.category}
-                    </span>
-                  </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        article.category === "conseil" ? "bg-[#0066ff]/10 text-[#0066ff]" :
+                        article.category === "actualite" ? "bg-[#00d4ff]/10 text-[#00d4ff]" :
+                        "bg-purple-100 text-purple-600"
+                      }`}>
+                        {article.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-semibold text-[#0066ff]">
+                      {article.price}€
+                    </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
                     {new Date(article.created_at).toLocaleDateString('fr-FR')}
                   </td>
@@ -369,11 +376,24 @@ export default function AdminArticlesPage() {
                     </div>
                   </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Tag className="w-4 h-4 inline mr-2" />
-                    Catégorie
-                  </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Prix (€)
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                      placeholder="Prix de l'article"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <Tag className="w-4 h-4 inline mr-2" />
+                      Catégorie
+                    </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}

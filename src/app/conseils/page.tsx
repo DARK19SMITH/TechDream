@@ -150,9 +150,14 @@ export default function ConseilsPage() {
                             })}
                           </span>
                         </div>
-                        <h2 className="font-orbitron text-2xl lg:text-3xl font-bold text-[#0a1628] mb-4">
-                          {featuredArticle.title}
-                        </h2>
+                          <h2 className="font-orbitron text-2xl lg:text-3xl font-bold text-[#0a1628] mb-4 flex items-center justify-between">
+                            {featuredArticle.title}
+                            {featuredArticle.price > 0 && (
+                              <span className="text-[#0066ff] text-2xl font-bold ml-4">
+                                {featuredArticle.price}€
+                              </span>
+                            )}
+                          </h2>
                         <p className="text-gray-600 font-rajdhani text-lg mb-6 line-clamp-3">
                           {featuredArticle.content}
                         </p>
@@ -233,9 +238,14 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
             year: 'numeric'
           })}
         </div>
-        <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] mb-3 line-clamp-2 group-hover:text-[#0066ff] transition-colors">
-          {article.title}
-        </h3>
+          <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] mb-3 line-clamp-2 group-hover:text-[#0066ff] transition-colors flex items-center justify-between">
+            {article.title}
+            {article.price > 0 && (
+              <span className="text-[#0066ff] font-bold ml-2">
+                {article.price}€
+              </span>
+            )}
+          </h3>
         <p className="text-gray-600 font-rajdhani mb-4 line-clamp-2">
           {article.content}
         </p>

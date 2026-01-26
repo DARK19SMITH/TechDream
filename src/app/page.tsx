@@ -41,6 +41,7 @@ interface Article {
   image: string | null;
   category: string;
   published: boolean;
+  price: number;
   created_at: string;
 }
 
@@ -353,8 +354,13 @@ export default function HomePage() {
                       year: 'numeric' 
                     })}
                   </div>
-                  <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] mb-3 line-clamp-2">
+                  <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] mb-3 line-clamp-2 flex items-center justify-between">
                     {article.title}
+                    {article.price > 0 && (
+                      <span className="text-[#0066ff] font-bold ml-2">
+                        {article.price}€
+                      </span>
+                    )}
                   </h3>
                   <Link 
                     href={`/conseils/${article.id}`}

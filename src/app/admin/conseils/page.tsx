@@ -16,13 +16,14 @@ export default function AdminConseilsPage() {
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    image: "",
-    category: "conseil" as Article["category"],
-    published: true,
-  });
+    const [formData, setFormData] = useState({
+      title: "",
+      content: "",
+      image: "",
+      category: "conseil" as Article["category"],
+      published: true,
+      price: 0,
+    });
 
   const fetchArticles = async () => {
     const res = await fetch("/api/articles");
@@ -78,6 +79,7 @@ export default function AdminConseilsPage() {
         image: article.image || "",
         category: article.category,
         published: article.published,
+        price: article.price || 0,
       });
     } else {
       setEditingArticle(null);
@@ -87,6 +89,7 @@ export default function AdminConseilsPage() {
         image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800",
         category: "conseil",
         published: true,
+        price: 0,
       });
     }
     setIsModalOpen(true);
@@ -216,13 +219,16 @@ export default function AdminConseilsPage() {
               </div>
             </div>
 
-            <div className="p-5">
-              <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] mb-2 line-clamp-2">
-                {article.title}
-              </h3>
-              <p className="text-gray-600 font-rajdhani text-sm mb-4 line-clamp-2">
-                {article.content}
-              </p>
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] line-clamp-1">
+                    {article.title}
+                  </h3>
+                  <span className="text-[#0066ff] font-bold">{article.price}€</span>
+                </div>
+                <p className="text-gray-600 font-rajdhani text-sm mb-4 line-clamp-2">
+                  {article.content}
+                </p>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">
                   {new Date(article.created_at).toLocaleDateString('fr-FR')}
@@ -369,11 +375,24 @@ export default function AdminConseilsPage() {
                     </div>
                   </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Tag className="w-4 h-4 inline mr-2" />
-                    Type
-                  </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Prix (€)
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                      placeholder="Prix du conseil"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <Tag className="w-4 h-4 inline mr-2" />
+                      Type
+                    </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value as Article["category"] })}

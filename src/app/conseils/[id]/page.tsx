@@ -93,9 +93,14 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            <h1 className="font-orbitron text-3xl md:text-5xl font-bold text-white mb-8 leading-tight">
-              {article.title}
-            </h1>
+              <h1 className="font-orbitron text-3xl md:text-5xl font-bold text-white mb-8 leading-tight flex flex-col md:flex-row md:items-center justify-between gap-4">
+                {article.title}
+                {article.price > 0 && (
+                  <span className="text-[#00d4ff] text-3xl md:text-4xl font-bold whitespace-nowrap">
+                    {article.price}€
+                  </span>
+                )}
+              </h1>
 
             <div className="flex items-center justify-between border-t border-white/10 pt-8">
               <div className="flex items-center gap-3">
