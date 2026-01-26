@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { 
   BookOpen, Lightbulb, Newspaper, Clock, Search, 
   ChevronRight, Tag, Calendar
@@ -155,10 +156,13 @@ export default function ConseilsPage() {
                         <p className="text-gray-600 font-rajdhani text-lg mb-6 line-clamp-3">
                           {featuredArticle.content}
                         </p>
-                        <button className="btn-tech w-fit flex items-center gap-2">
-                          Lire l&apos;article
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
+                          <Link 
+                            href={`/conseils/${featuredArticle.id}`}
+                            className="btn-tech w-fit flex items-center gap-2"
+                          >
+                            Lire l&apos;article
+                            <ChevronRight className="w-4 h-4" />
+                          </Link>
                       </div>
                     </div>
                   </div>
@@ -235,10 +239,13 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
         <p className="text-gray-600 font-rajdhani mb-4 line-clamp-2">
           {article.content}
         </p>
-        <button className="text-[#0066ff] hover:text-[#00d4ff] font-medium flex items-center gap-1 transition-colors">
+        <Link 
+          href={`/conseils/${article.id}`}
+          className="text-[#0066ff] hover:text-[#00d4ff] font-medium flex items-center gap-1 transition-colors"
+        >
           Lire plus
           <ChevronRight className="w-4 h-4" />
-        </button>
+        </Link>
       </div>
     </motion.div>
   );

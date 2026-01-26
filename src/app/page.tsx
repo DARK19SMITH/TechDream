@@ -364,7 +364,7 @@ export default function HomePage() {
                     {article.title}
                   </h3>
                   <Link 
-                    href="/conseils"
+                    href={`/conseils/${article.id}`}
                     className="text-[#0066ff] hover:text-[#00d4ff] font-medium flex items-center gap-1 transition-colors"
                   >
                     Lire plus
