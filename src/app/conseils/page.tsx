@@ -154,7 +154,7 @@ export default function ConseilsPage() {
                             {featuredArticle.title}
                             {featuredArticle.price > 0 && (
                               <span className="text-[#0066ff] text-2xl font-bold ml-4">
-                                {featuredArticle.price}€
+                                {featuredArticle.price} FCFA
                               </span>
                             )}
                           </h2>
@@ -242,7 +242,7 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
             {article.title}
             {article.price > 0 && (
               <span className="text-[#0066ff] font-bold ml-2">
-                {article.price}€
+                {article.price} FCFA
               </span>
             )}
           </h3>

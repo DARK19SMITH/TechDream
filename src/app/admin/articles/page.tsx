@@ -223,7 +223,7 @@ export default function AdminArticlesPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm font-semibold text-[#0066ff]">
-                      {article.price}€
+                      {article.price} FCFA
                     </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
                     {new Date(article.created_at).toLocaleDateString('fr-FR')}
@@ -378,7 +378,7 @@ export default function AdminArticlesPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Prix (€)
+                      Prix (FCFA)
                     </label>
                     <input
                       type="number"

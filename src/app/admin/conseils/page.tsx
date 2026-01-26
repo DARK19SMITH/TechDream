@@ -224,7 +224,8 @@ export default function AdminConseilsPage() {
                   <h3 className="font-orbitron text-lg font-semibold text-[#0a1628] line-clamp-1">
                     {article.title}
                   </h3>
-                  <span className="text-[#0066ff] font-bold">{article.price}€</span>
+                    <span className="text-[#0066ff] font-bold">{article.price} FCFA</span>
+
                 </div>
                 <p className="text-gray-600 font-rajdhani text-sm mb-4 line-clamp-2">
                   {article.content}
@@ -377,7 +378,7 @@ export default function AdminConseilsPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Prix (€)
+                      Prix (FCFA)
                     </label>
                     <input
                       type="number"

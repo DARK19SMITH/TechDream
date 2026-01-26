@@ -97,7 +97,8 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ id: st
                 {article.title}
                 {article.price > 0 && (
                   <span className="text-[#00d4ff] text-3xl md:text-4xl font-bold whitespace-nowrap">
-                    {article.price}€
+                      {article.price} FCFA
+
                   </span>
                 )}
               </h1>

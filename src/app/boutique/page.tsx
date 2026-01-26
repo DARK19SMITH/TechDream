@@ -206,7 +206,8 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         <div className="flex items-center justify-between">
           <div>
             <span className="font-orbitron text-3xl font-bold text-[#0066ff]">
-              {product.price}€
+                {product.price} FCFA
+
             </span>
           </div>
           <button 

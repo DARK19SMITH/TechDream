@@ -210,7 +210,7 @@ export default function HomePage() {
                   <p className="text-gray-600 font-rajdhani mb-4">{product.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="font-orbitron text-2xl font-bold text-[#0066ff]">
-                      {product.price}€
+                      {product.price} FCFA
                     </span>
                     <Link 
                       href="/boutique"
@@ -358,7 +358,8 @@ export default function HomePage() {
                     {article.title}
                     {article.price > 0 && (
                       <span className="text-[#0066ff] font-bold ml-2">
-                        {article.price}€
+                          {article.price} FCFA
+
                       </span>
                     )}
                   </h3>
