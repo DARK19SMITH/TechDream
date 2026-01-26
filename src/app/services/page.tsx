@@ -77,8 +77,7 @@ const services = [
 const stats = [
   { value: "98%", label: "Satisfaction client" },
   { value: "< 2h", label: "Temps de réponse" },
-  { value: "500+", label: "Interventions/mois" },
-  { value: "10 ans", label: "D'expérience" },
+  { value: "7 ans", label: "D'expérience" },
 ];
 
 export default function ServicesPage() {
@@ -103,7 +102,7 @@ export default function ServicesPage() {
               Des solutions informatiques complètes pour les professionnels et particuliers
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
               {stats.map((stat, i) => (
                 <motion.div
                   key={i}
@@ -190,18 +189,18 @@ export default function ServicesPage() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a 
-                href="tel:+2250586973027"
+                href="tel:+2250160010377"
                 className="flex items-center gap-3 px-8 py-4 bg-white text-[#0066ff] rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 <Phone className="w-5 h-5" />
-                +225 0586973027
+                +225 0160010377
               </a>
               <a 
-                href="mailto:patrikouadio10@gmail.com"
+                href="mailto:Koffreddy@gmail.com"
                 className="flex items-center gap-3 px-8 py-4 border-2 border-[#00d4ff] text-[#00d4ff] rounded-lg font-semibold hover:bg-[#00d4ff]/10 transition-colors"
               >
                 <Mail className="w-5 h-5" />
-                patrikouadio10@gmail.com
+                Koffreddy@gmail.com
               </a>
             </div>
           </motion.div>
