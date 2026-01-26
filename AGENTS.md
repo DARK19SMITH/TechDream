@@ -1,5 +1,5 @@
 ## Project Summary
-Site de vente et de conseil informatique "Tech Dream" proposant des solutions technologiques innovantes, des PC de haute performance et des conseils IT.
+Site de vente et de conseil informatique "Tech Dream" proposant des solutions technologiques innovantes, des PC de haute performance, des services d'infographie (Photoshop, Illustrator), de montage vidéo (Premiere Pro) et de sérigraphie.
 
 ## Tech Stack
 - **Framework**: Next.js 15 (App Router)

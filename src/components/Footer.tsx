@@ -58,19 +58,19 @@ export function Footer() {
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-orbitron font-semibold text-lg mb-6 text-[#00d4ff]">Services</h3>
-              <ul className="space-y-3">
-                {["Vente PC & Laptops", "Maintenance", "Conseils IT", "Sécurité", "Optimisation"].map((item) => (
-                  <li key={item}>
-                    <span className="text-gray-400 font-rajdhani text-lg flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff]" />
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div>
+                <h3 className="font-orbitron font-semibold text-lg mb-6 text-[#00d4ff]">Services</h3>
+                <ul className="space-y-3">
+                  {["Vente PC & Laptops", "Maintenance", "Infographie & Design", "Montage Vidéo", "Sérigraphie"].map((item) => (
+                    <li key={item}>
+                      <span className="text-gray-400 font-rajdhani text-lg flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff]" />
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
             <div>
               <h3 className="font-orbitron font-semibold text-lg mb-6 text-[#00d4ff]">Contact</h3>

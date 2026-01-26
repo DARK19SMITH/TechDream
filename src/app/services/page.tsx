@@ -3,12 +3,31 @@
 import { motion } from "framer-motion";
 import { 
   Wrench, Shield, Zap, Cloud, Monitor, Headphones,
-  CheckCircle, Phone, Mail
+  CheckCircle, Phone, Mail, Palette, Video, Printer
 } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 
 const services = [
+  {
+    icon: Palette,
+    title: "Infographie & Design",
+    description: "Création visuelle professionnelle pour votre communication de marque.",
+    features: ["Adobe Photoshop", "Adobe Illustrator", "Logos & Identité visuelle", "Supports publicitaires"],
+    color: "from-[#ff0099] to-[#ff6600]",
+  },
+  {
+    icon: Video,
+    title: "Montage Vidéo",
+    description: "Production et montage vidéo professionnel pour vos projets.",
+    features: ["Adobe Premiere Pro", "Colorimétrie", "Transitions dynamiques", "Export haute résolution"],
+    color: "from-[#6600ff] to-[#0066ff]",
+  },
+  {
+    icon: Printer,
+    title: "Sérigraphie",
+    description: "Services de marquage et d'impression sur divers supports.",
+    features: ["Impression textile", "Personnalisation", "Petites séries", "Qualité durable"],
+    color: "from-[#00cc66] to-[#0066ff]",
+  },
   {
     icon: Wrench,
     title: "Maintenance Informatique",

@@ -6,7 +6,8 @@ import Link from "next/link";
 import { 
   Cpu, Monitor, Laptop, Gamepad2, Shield, Zap, 
   ChevronRight, ArrowRight, Star, Clock, Users,
-  Sparkles, CircuitBoard, Server, Cloud, Eye
+  Sparkles, CircuitBoard, Server, Cloud, Eye,
+  Palette, Video, Printer
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -18,7 +19,9 @@ const features = [
   { icon: Monitor, title: "PC Haute Performance", desc: "Configurations sur mesure pour tous vos besoins" },
   { icon: Laptop, title: "Laptops Premium", desc: "Mobilité et puissance réunies" },
   { icon: Gamepad2, title: "Gaming Elite", desc: "Setup gaming de compétition" },
-  { icon: Shield, title: "Sécurité Maximale", desc: "Protection avancée de vos données" },
+  { icon: Palette, title: "Infographie", desc: "Photoshop, Illustrator & Design visuel" },
+  { icon: Video, title: "Montage Vidéo", desc: "Production avec Premiere Pro" },
+  { icon: Printer, title: "Sérigraphie", desc: "Personnalisation et marquage sur supports" },
 ];
 
 interface SiteStats {
