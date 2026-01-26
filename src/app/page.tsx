@@ -24,15 +24,29 @@ const features = [
   { icon: Printer, title: "Sérigraphie", desc: "Personnalisation et marquage sur supports" },
 ];
 
-interface SiteStats {
-  page_views: number;
-  articles_views: number;
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string | null;
+  category: string;
+  created_at: string;
+}
+
+interface Article {
+  id: string;
+  title: string;
+  content: string;
+  image: string | null;
+  category: string;
+  published: boolean;
+  created_at: string;
 }
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [siteStats, setSiteStats] = useState<SiteStats>({ page_views: 0, articles_views: 0 });
 
   useEffect(() => {
     fetch("/api/products").then(res => res.json()).then(data => setProducts(data.slice(0, 3)));
@@ -40,7 +54,6 @@ export default function HomePage() {
       const published = data.filter((a: Article) => a.published);
       setArticles(published.slice(0, 3));
     });
-    fetch("/api/stats").then(res => res.json()).then(data => setSiteStats(data));
     
     fetch("/api/stats", {
       method: "POST",
@@ -48,11 +61,6 @@ export default function HomePage() {
       body: JSON.stringify({ stat_id: "page_views", increment: 1 }),
     });
   }, []);
-
-  const stats = [
-    { value: siteStats.page_views, label: "Vues du site", icon: Eye },
-    { value: siteStats.articles_views, label: "Articles lus", icon: Star },
-  ];
 
   return (
     <main className="min-h-screen">
@@ -100,21 +108,6 @@ export default function HomePage() {
                 <ChevronRight className="w-5 h-5" />
               </Link>
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="mt-20 grid grid-cols-2 gap-6 max-w-2xl mx-auto"
-          >
-            {stats.map((stat, i) => (
-              <div key={i} className="glass-dark rounded-xl p-6 text-center">
-                <stat.icon className="w-8 h-8 text-[#00d4ff] mx-auto mb-3" />
-                <div className="font-orbitron text-3xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
-              </div>
-            ))}
           </motion.div>
         </div>
 

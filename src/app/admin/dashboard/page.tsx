@@ -9,17 +9,32 @@ import {
 } from "lucide-react";
 import { Article } from "@/lib/supabase";
 
+interface SiteStats {
+  page_views: number;
+  articles_views: number;
+  clients: number;
+  products_sold: number;
+}
+
 export default function AdminDashboard() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [statsData, setStatsData] = useState<SiteStats>({ 
+    page_views: 0, 
+    articles_views: 0,
+    clients: 0,
+    products_sold: 0
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/articles")
-      .then(res => res.json())
-      .then(data => {
-        setArticles(data);
-        setIsLoading(false);
-      });
+    Promise.all([
+      fetch("/api/articles").then(res => res.json()),
+      fetch("/api/stats").then(res => res.json())
+    ]).then(([articlesData, stats]) => {
+      setArticles(articlesData);
+      setStatsData(stats);
+      setIsLoading(false);
+    });
   }, []);
 
   const publishedCount = articles.filter(a => a.published).length;
@@ -32,28 +47,28 @@ export default function AdminDashboard() {
       value: publishedCount, 
       icon: FileText, 
       color: "from-[#0066ff] to-[#0099ff]",
-      change: "+12%"
+      change: "Total"
     },
     { 
       label: "Conseils", 
       value: conseilsCount, 
       icon: Lightbulb, 
       color: "from-[#00d4ff] to-[#0066ff]",
-      change: "+8%"
+      change: "Total"
     },
     { 
-      label: "Vues totales", 
-      value: "12.4K", 
+      label: "Vues du site", 
+      value: statsData.page_views, 
       icon: Eye, 
       color: "from-[#0099ff] to-[#00d4ff]",
-      change: "+24%"
+      change: "Total"
     },
     { 
-      label: "Croissance", 
-      value: "+34%", 
+      label: "Articles lus", 
+      value: statsData.articles_views, 
       icon: TrendingUp, 
       color: "from-[#0066ff] to-[#00d4ff]",
-      change: "Ce mois"
+      change: "Total"
     },
   ];
 
