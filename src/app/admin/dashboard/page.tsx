@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
-  FileText, Lightbulb, TrendingUp, Eye, 
-  Plus, ArrowRight, Calendar, Clock
+  Package, Lightbulb, TrendingUp, Eye, 
+  Plus, ArrowRight, Calendar, Clock, ShoppingCart
 } from "lucide-react";
-import { Article } from "@/lib/supabase";
+import { Product, Article } from "@/lib/supabase";
 
 interface SiteStats {
   page_views: number;
@@ -17,6 +17,7 @@ interface SiteStats {
 }
 
 export default function AdminDashboard() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [statsData, setStatsData] = useState<SiteStats>({ 
     page_views: 0, 
@@ -28,33 +29,35 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     Promise.all([
+      fetch("/api/products").then(res => res.json()),
       fetch("/api/articles").then(res => res.json()),
       fetch("/api/stats").then(res => res.json())
-    ]).then(([articlesData, stats]) => {
+    ]).then(([productsData, articlesData, stats]) => {
+      setProducts(productsData);
       setArticles(articlesData);
       setStatsData(stats);
       setIsLoading(false);
     });
   }, []);
 
-  const publishedCount = articles.filter(a => a.published).length;
-  const conseilsCount = articles.filter(a => a.category === "conseil").length;
-  const recentArticles = articles.slice(0, 5);
+  const inStockCount = products.filter(p => p.in_stock).length;
+  const conseilsCount = articles.filter(a => a.category === "conseil" || a.category === "astuce").length;
+  const recentProducts = products.slice(0, 5);
 
   const stats = [
     { 
-      label: "Articles publiés", 
-      value: publishedCount, 
-      icon: FileText, 
+      label: "Produits en stock", 
+      value: inStockCount, 
+      icon: Package, 
       color: "from-[#0066ff] to-[#0099ff]",
-      change: "Total"
+      change: "Boutique"
     },
     { 
-      label: "Conseils", 
+      label: "Conseils IT", 
       value: conseilsCount, 
       icon: Lightbulb, 
       color: "from-[#00d4ff] to-[#0066ff]",
-      change: "Total"
+      change: "Blog"
     },
     { 
       label: "Vues du site", 
@@ -64,11 +67,11 @@ export default function AdminDashboard() {
       change: "Total"
     },
     { 
-      label: "Articles lus", 
-      value: statsData.articles_views, 
-      icon: TrendingUp, 
+      label: "Ventes estimées", 
+      value: statsData.products_sold, 
+      icon: ShoppingCart, 
       color: "from-[#0066ff] to-[#00d4ff]",
-      change: "Total"
+      change: "Stats"
     },
   ];
 
@@ -129,10 +132,10 @@ export default function AdminDashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-orbitron text-xl font-semibold text-[#0a1628]">
-              Articles récents
+              Produits récents
             </h2>
             <Link 
-              href="/admin/articles" 
+              href="/admin/produits" 
               className="text-[#0066ff] hover:text-[#00d4ff] font-medium text-sm flex items-center gap-1"
             >
               Voir tout
@@ -141,43 +144,44 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-4">
-            {recentArticles.map((article) => (
-              <div 
-                key={article.id}
-                className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-[#0066ff]/5 transition-colors"
-              >
-                <img 
-                  src={article.image || ""} 
-                  alt={article.title}
-                  className="w-16 h-16 rounded-lg object-cover"
-                />
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-[#0a1628] truncate">
-                    {article.title}
-                  </h3>
-                  <div className="flex items-center gap-4 mt-1">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      article.category === "conseil" ? "bg-[#0066ff]/10 text-[#0066ff]" :
-                      article.category === "actualite" ? "bg-[#00d4ff]/10 text-[#00d4ff]" :
-                      "bg-purple-100 text-purple-600"
-                    }`}>
-                      {article.category}
-                    </span>
-                    <span className="text-xs text-gray-500 flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {new Date(article.created_at).toLocaleDateString('fr-FR')}
-                    </span>
+            {recentProducts.length > 0 ? (
+              recentProducts.map((product) => (
+                <div 
+                  key={product.id}
+                  className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-[#0066ff]/5 transition-colors"
+                >
+                  <img 
+                    src={product.image || ""} 
+                    alt={product.name}
+                    className="w-16 h-16 rounded-lg object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-[#0a1628] truncate">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-4 mt-1">
+                      <span className="text-xs px-2 py-1 rounded-full bg-[#0066ff]/10 text-[#0066ff] uppercase">
+                        {product.category}
+                      </span>
+                      <span className="text-sm font-bold text-[#0066ff]">
+                        {product.price} FCFA
+                      </span>
+                    </div>
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    product.in_stock 
+                      ? "bg-green-100 text-green-600" 
+                      : "bg-red-100 text-red-600"
+                  }`}>
+                    {product.in_stock ? "En stock" : "Rupture"}
                   </div>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  article.published 
-                    ? "bg-green-100 text-green-600" 
-                    : "bg-yellow-100 text-yellow-600"
-                }`}>
-                  {article.published ? "Publié" : "Brouillon"}
-                </div>
+              ))
+            ) : (
+              <div className="text-center py-10 text-gray-500">
+                Aucun produit enregistré
               </div>
-            ))}
+            )}
           </div>
         </motion.div>
 
@@ -193,28 +197,28 @@ export default function AdminDashboard() {
 
           <div className="space-y-4">
             <Link 
-              href="/admin/articles"
+              href="/admin/produits"
               className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-[#0066ff] to-[#0099ff] text-white hover:shadow-lg hover:shadow-[#0066ff]/30 transition-all"
             >
               <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
                 <Plus className="w-5 h-5" />
               </div>
               <div>
-                <span className="font-semibold">Nouvel article</span>
-                <p className="text-xs text-white/80">Créer un nouveau contenu</p>
+                <span className="font-semibold">Nouveau produit</span>
+                <p className="text-xs text-white/80">Ajouter à la boutique</p>
               </div>
             </Link>
 
             <Link 
               href="/admin/conseils"
-              className="flex items-center gap-4 p-4 rounded-xl border border-[#0066ff]/20 text-[#0a1628] hover:bg-[#0066ff]/5 transition-all"
+              className="flex items-center gap-4 p-4 rounded-xl border border-[#00d4ff]/20 text-[#0a1628] hover:bg-[#00d4ff]/5 transition-all"
             >
               <div className="w-10 h-10 rounded-lg bg-[#00d4ff]/10 flex items-center justify-center">
                 <Lightbulb className="w-5 h-5 text-[#00d4ff]" />
               </div>
               <div>
-                <span className="font-semibold">Gérer conseils</span>
-                <p className="text-xs text-gray-500">Modifier les conseils IT</p>
+                <span className="font-semibold">Nouveau conseil</span>
+                <p className="text-xs text-gray-500">Partager une astuce IT</p>
               </div>
             </Link>
 

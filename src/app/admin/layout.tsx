@@ -11,7 +11,7 @@ import {
 
 const navItems = [
   { href: "/admin/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { href: "/admin/articles", label: "Articles", icon: FileText },
+  { href: "/admin/produits", label: "Produits", icon: FileText },
   { href: "/admin/conseils", label: "Conseils", icon: Lightbulb },
   { href: "/admin/messages", label: "Messages", icon: Mail },
 ];

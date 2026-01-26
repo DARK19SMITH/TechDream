@@ -13,3 +13,19 @@ export async function GET() {
 
   return NextResponse.json(data);
 }
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { data, error } = await supabase
+      .from('products')
+      .insert([body])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return NextResponse.json(data);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
