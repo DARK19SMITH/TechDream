@@ -23,20 +23,20 @@ export default function MentionsLegales() {
             </h1>
 
             <div className="space-y-8 text-gray-300 font-rajdhani text-lg leading-relaxed">
-              <section>
-                <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">1. Éditeur du Site</h2>
-                <p>
-                  Le site Tech Dream est édité par Patrick Kouadio.<br />
-                  Siège social : Abidjan, Côte d'Ivoire.<br />
-                  Téléphone : +225 0586973027<br />
-                  Email : patrikouadio10@gmail.com
-                </p>
-              </section>
+                <section>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">1. Éditeur du Site</h2>
+                  <p>
+                    Le site Tech Dream est édité par Miguel Koffi.<br />
+                    Siège social : Abidjan, Côte d'Ivoire.<br />
+                    Téléphone : +225 0160010377<br />
+                    Email : Koffreddy@gmail.com
+                  </p>
+                </section>
 
-              <section>
-                <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">2. Responsable de Publication</h2>
-                <p>Patrick Kouadio</p>
-              </section>
+                <section>
+                  <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">2. Responsable de Publication</h2>
+                  <p>Miguel Koffi</p>
+                </section>
 
               <section>
                 <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">3. Hébergement</h2>

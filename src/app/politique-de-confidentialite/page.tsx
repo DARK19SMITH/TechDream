@@ -59,7 +59,7 @@ export default function PolitiqueConfidentialite() {
               <section>
                 <h2 className="text-[#00d4ff] font-orbitron text-xl mb-4">5. Vos Droits</h2>
                 <p>
-                  Conformément aux réglementations sur la protection des données, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ces droits, vous pouvez nous contacter à l'adresse : patrikouadio10@gmail.com.
+                  Conformément aux réglementations sur la protection des données, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ces droits, vous pouvez nous contacter à l'adresse : Koffreddy@gmail.com.
                 </p>
               </section>
 
