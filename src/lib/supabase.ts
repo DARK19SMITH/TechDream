@@ -35,8 +35,24 @@ export interface Product {
   category: 'pc' | 'laptop' | 'gaming' | 'professionnel' | 'accessoire';
   specs: string[] | null;
   in_stock: boolean;
+  gallery: string[] | null;
+  videos: string[] | null;
+  recommendations: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface Order {
+  id: string;
+  product_id: string;
+  customer_name: string;
+  customer_phone: string;
+  delivery_location: string;
+  status: 'pending' | 'completed' | 'cancelled';
+  total_price: number;
+  created_at: string;
+  updated_at: string;
+  product?: Product;
 }
 
 export interface Contact {

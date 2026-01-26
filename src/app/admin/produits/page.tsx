@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Search, Edit, Trash2, Eye, EyeOff, 
-  X, Save, Tag, Image as ImageIcon, Upload, Package
+  X, Save, Tag, Image as ImageIcon, Upload, Package,
+  Play, Lightbulb, ListPlus
 } from "lucide-react";
 import { Product, supabase } from "@/lib/supabase";
 
@@ -23,6 +24,9 @@ export default function AdminProduitsPage() {
     in_stock: true,
     price: 0,
     specs: [] as string[],
+    gallery: [] as string[],
+    videos: [] as string[],
+    recommendations: "",
   });
 
   const fetchProducts = async () => {
@@ -36,7 +40,7 @@ export default function AdminProduitsPage() {
     fetchProducts();
   }, []);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'main' | 'gallery' = 'main') => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -56,7 +60,11 @@ export default function AdminProduitsPage() {
         .from('images')
         .getPublicUrl(filePath);
 
-      setFormData({ ...formData, image: publicUrl });
+      if (type === 'main') {
+        setFormData({ ...formData, image: publicUrl });
+      } else {
+        setFormData({ ...formData, gallery: [...formData.gallery, publicUrl] });
+      }
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Erreur lors du téléversement de l\'image');
@@ -80,6 +88,9 @@ export default function AdminProduitsPage() {
         in_stock: product.in_stock,
         price: product.price || 0,
         specs: product.specs || [],
+        gallery: product.gallery || [],
+        videos: product.videos || [],
+        recommendations: product.recommendations || "",
       });
     } else {
       setEditingProduct(null);
@@ -91,6 +102,9 @@ export default function AdminProduitsPage() {
         in_stock: true,
         price: 0,
         specs: [],
+        gallery: [],
+        videos: [],
+        recommendations: "",
       });
     }
     setIsModalOpen(true);
@@ -130,6 +144,38 @@ export default function AdminProduitsPage() {
     fetchProducts();
   };
 
+  const addSpec = () => {
+    setFormData({ ...formData, specs: [...formData.specs, ""] });
+  };
+
+  const updateSpec = (index: number, value: string) => {
+    const newSpecs = [...formData.specs];
+    newSpecs[index] = value;
+    setFormData({ ...formData, specs: newSpecs });
+  };
+
+  const removeSpec = (index: number) => {
+    setFormData({ ...formData, specs: formData.specs.filter((_, i) => i !== index) });
+  };
+
+  const addVideo = () => {
+    setFormData({ ...formData, videos: [...formData.videos, ""] });
+  };
+
+  const updateVideo = (index: number, value: string) => {
+    const newVideos = [...formData.videos];
+    newVideos[index] = value;
+    setFormData({ ...formData, videos: newVideos });
+  };
+
+  const removeVideo = (index: number) => {
+    setFormData({ ...formData, videos: formData.videos.filter((_, i) => i !== index) });
+  };
+
+  const removeGalleryImage = (index: number) => {
+    setFormData({ ...formData, gallery: formData.gallery.filter((_, i) => i !== index) });
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen p-6 lg:p-8 flex items-center justify-center">
@@ -139,7 +185,7 @@ export default function AdminProduitsPage() {
   }
 
   return (
-    <div className="min-h-screen p-6 lg:p-8">
+    <div className="min-h-screen p-6 lg:p-8 bg-gray-50/50">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -157,7 +203,7 @@ export default function AdminProduitsPage() {
           </div>
           <button
             onClick={() => openModal()}
-            className="btn-tech flex items-center gap-2 w-fit"
+            className="btn-tech flex items-center gap-2 w-fit px-6"
           >
             <Plus className="w-5 h-5" />
             Nouveau produit
@@ -171,14 +217,14 @@ export default function AdminProduitsPage() {
         transition={{ delay: 0.1 }}
         className="mb-6"
       >
-        <div className="relative max-w-md">
+        <div className="relative max-w-md shadow-sm">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Rechercher un produit..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani bg-white"
           />
         </div>
       </motion.div>
@@ -187,7 +233,7 @@ export default function AdminProduitsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="card-tech overflow-hidden"
+        className="card-tech overflow-hidden bg-white shadow-xl border-gray-100"
       >
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -208,7 +254,7 @@ export default function AdminProduitsPage() {
                       <img
                         src={product.image || ""}
                         alt={product.name}
-                        className="w-12 h-12 rounded-lg object-cover"
+                        className="w-12 h-12 rounded-lg object-cover bg-gray-100"
                       />
                       <div>
                         <h3 className="font-semibold text-[#0a1628] line-clamp-1">{product.name}</h3>
@@ -279,10 +325,10 @@ export default function AdminProduitsPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <div className="sticky top-0 bg-white p-6 border-b border-gray-200 flex items-center justify-between z-10">
                 <h2 className="font-orbitron text-xl font-semibold text-[#0a1628]">
                   {editingProduct ? "Modifier le produit" : "Nouveau produit"}
                 </h2>
@@ -294,118 +340,158 @@ export default function AdminProduitsPage() {
                 </button>
               </div>
 
-              <div className="p-6 space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nom du produit
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    placeholder="Ex: PC Gamer Ultra"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Description
-                  </label>
-                  <textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani resize-none"
-                    placeholder="Description du produit..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <ImageIcon className="w-4 h-4 inline mr-2" />
-                    Image du produit
-                  </label>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                      <div className="relative flex-1">
+              <div className="p-8 space-y-8">
+                {/* Basic Info */}
+                <section className="space-y-4">
+                   <h3 className="font-orbitron text-sm font-bold text-gray-400 uppercase tracking-wider">Informations de base</h3>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Nom du produit</label>
                         <input
                           type="text"
-                          value={formData.image}
-                          onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani pr-12"
-                          placeholder="URL de l'image ou téléversez-en une..."
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                          placeholder="Ex: PC Gamer Ultra V2"
                         />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          <ImageIcon className="w-5 h-5 text-gray-400" />
-                        </div>
                       </div>
-                      <label className={`cursor-pointer flex items-center gap-2 px-4 py-3 rounded-xl border-2 border-dashed transition-all ${
-                        isUploading 
-                          ? "bg-gray-50 border-gray-300 text-gray-400" 
-                          : "bg-[#0066ff]/5 border-[#0066ff]/20 text-[#0066ff] hover:bg-[#0066ff]/10"
-                      }`}>
-                        <Upload className={`w-5 h-5 ${isUploading ? "animate-bounce" : ""}`} />
-                        <span className="font-medium whitespace-nowrap">
-                          {isUploading ? "Téléversement..." : "Téléverser"}
-                        </span>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Prix (FCFA)</label>
                         <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          disabled={isUploading}
+                          type="number"
+                          value={formData.price}
+                          onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
                         />
-                      </label>
-                    </div>
-                    {formData.image && (
-                      <div className="relative rounded-xl overflow-hidden border border-gray-100 group max-w-sm">
-                        <img src={formData.image} alt="Preview" className="w-full h-32 object-cover" />
-                        <button
-                          onClick={() => setFormData({ ...formData, image: "" })}
-                          className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
                       </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Prix (FCFA)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                      placeholder="Prix du produit"
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                        <select
+                          value={formData.category}
+                          onChange={(e) => setFormData({ ...formData, category: e.target.value as Product["category"] })}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
+                        >
+                          <option value="pc">PC de bureau</option>
+                          <option value="laptop">Ordinateur portable</option>
+                          <option value="gaming">Gaming</option>
+                          <option value="professionnel">Professionnel</option>
+                          <option value="accessoire">Accessoire</option>
+                        </select>
+                      </div>
+                   </div>
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      rows={3}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani resize-none"
                     />
                   </div>
+                </section>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Tag className="w-4 h-4 inline mr-2" />
-                      Catégorie
-                    </label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value as Product["category"] })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] focus:ring-2 focus:ring-[#0066ff]/20 outline-none transition-all font-rajdhani"
-                    >
-                      <option value="pc">PC de bureau</option>
-                      <option value="laptop">Ordinateur portable</option>
-                      <option value="gaming">Gaming</option>
-                      <option value="professionnel">Professionnel</option>
-                      <option value="accessoire">Accessoire</option>
-                    </select>
-                  </div>
-                </div>
+                {/* Images */}
+                <section className="space-y-4">
+                   <h3 className="font-orbitron text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                     <ImageIcon className="w-4 h-4" /> Images & Galerie
+                   </h3>
+                   <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Image principale</label>
+                        <div className="flex gap-4">
+                          <input
+                            type="text"
+                            value={formData.image}
+                            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                            className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] outline-none transition-all font-rajdhani"
+                            placeholder="URL..."
+                          />
+                          <label className="cursor-pointer btn-tech !py-3 flex items-center gap-2">
+                            <Upload className="w-4 h-4" /> 
+                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'main')} />
+                          </label>
+                        </div>
+                      </div>
 
-                <div className="flex items-center gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Galerie Photos</label>
+                        <div className="grid grid-cols-4 gap-4 mb-4">
+                          {formData.gallery.map((img, i) => (
+                            <div key={i} className="relative aspect-square rounded-lg overflow-hidden border">
+                              <img src={img} className="w-full h-full object-cover" />
+                              <button onClick={() => removeGalleryImage(i)} className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-md"><X className="w-3 h-3" /></button>
+                            </div>
+                          ))}
+                          <label className="cursor-pointer aspect-square rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center hover:border-[#0066ff] transition-colors">
+                            <Plus className="w-6 h-6 text-gray-400" />
+                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'gallery')} />
+                          </label>
+                        </div>
+                      </div>
+                   </div>
+                </section>
+
+                {/* Specs */}
+                <section className="space-y-4">
+                   <h3 className="font-orbitron text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
+                     <span>Caractéristiques</span>
+                     <button onClick={addSpec} className="text-[#0066ff] text-xs flex items-center gap-1 hover:underline">
+                        <Plus className="w-3 h-3" /> Ajouter
+                     </button>
+                   </h3>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {formData.specs.map((spec, i) => (
+                        <div key={i} className="flex gap-2">
+                           <input
+                             value={spec}
+                             onChange={(e) => updateSpec(i, e.target.value)}
+                             className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-[#0066ff] outline-none text-sm"
+                             placeholder="Ex: 16GB RAM"
+                           />
+                           <button onClick={() => removeSpec(i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                        </div>
+                      ))}
+                   </div>
+                </section>
+
+                {/* Videos */}
+                <section className="space-y-4">
+                   <h3 className="font-orbitron text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
+                     <span className="flex items-center gap-2"><Play className="w-4 h-4" /> Vidéos</span>
+                     <button onClick={addVideo} className="text-[#0066ff] text-xs flex items-center gap-1 hover:underline">
+                        <Plus className="w-3 h-3" /> Ajouter URL
+                     </button>
+                   </h3>
+                   <div className="space-y-2">
+                      {formData.videos.map((video, i) => (
+                        <div key={i} className="flex gap-2">
+                           <input
+                             value={video}
+                             onChange={(e) => updateVideo(i, e.target.value)}
+                             className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-[#0066ff] outline-none text-sm"
+                             placeholder="URL YouTube ou direct..."
+                           />
+                           <button onClick={() => removeVideo(i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                        </div>
+                      ))}
+                   </div>
+                </section>
+
+                {/* Recommendations */}
+                <section className="space-y-4">
+                   <h3 className="font-orbitron text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                     <Lightbulb className="w-4 h-4" /> Recommandations
+                   </h3>
+                   <textarea
+                      value={formData.recommendations}
+                      onChange={(e) => setFormData({ ...formData, recommendations: e.target.value })}
+                      rows={5}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0066ff] outline-none transition-all font-rajdhani resize-none"
+                      placeholder="Conseils d'utilisation, pour quels besoins ce PC est-il idéal ?"
+                    />
+                </section>
+
+                <div className="flex items-center gap-3 py-4 border-t border-gray-100">
                   <input
                     type="checkbox"
                     id="in_stock"
@@ -413,22 +499,20 @@ export default function AdminProduitsPage() {
                     onChange={(e) => setFormData({ ...formData, in_stock: e.target.checked })}
                     className="w-5 h-5 rounded border-gray-300 text-[#0066ff] focus:ring-[#0066ff]"
                   />
-                  <label htmlFor="in_stock" className="text-sm text-gray-700 font-medium">
-                    Disponible en stock
-                  </label>
+                  <label htmlFor="in_stock" className="text-sm text-gray-700 font-bold">Disponible immédiatement</label>
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex items-center justify-end gap-4">
+              <div className="sticky bottom-0 bg-gray-50 p-6 border-t border-gray-200 flex items-center justify-end gap-4 z-10">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors font-medium"
+                  className="px-6 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors font-medium"
                 >
                   Annuler
                 </button>
                 <button
                   onClick={handleSave}
-                  className="btn-tech flex items-center gap-2"
+                  className="btn-tech flex items-center gap-2 px-8"
                 >
                   <Save className="w-5 h-5" />
                   {editingProduct ? "Mettre à jour" : "Créer le produit"}

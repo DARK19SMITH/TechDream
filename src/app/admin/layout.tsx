@@ -6,12 +6,13 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Cpu, LayoutDashboard, FileText, Lightbulb, LogOut, 
-  Menu, X, ChevronRight, Mail 
+  Menu, X, ChevronRight, Mail, ShoppingBag 
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
   { href: "/admin/produits", label: "Produits", icon: FileText },
+  { href: "/admin/commandes", label: "Commandes", icon: ShoppingBag },
   { href: "/admin/conseils", label: "Conseils", icon: Lightbulb },
   { href: "/admin/messages", label: "Messages", icon: Mail },
 ];

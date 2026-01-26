@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   Monitor, Laptop, Gamepad2, Briefcase, Package, 
-  Search, Filter, ShoppingCart, Check, X
+  Search, Filter, ShoppingBag, Check, X, Info
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Product } from "@/lib/supabase";
+import { CheckoutModal } from "@/components/CheckoutModal";
+import { ProductDetailsModal } from "@/components/ProductDetailsModal";
 
 const categories = [
   { id: "all", label: "Tous", icon: Package },
@@ -23,6 +25,10 @@ export default function BoutiquePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/products")
@@ -39,6 +45,16 @@ export default function BoutiquePage() {
                          (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
     return matchesCategory && matchesSearch;
   });
+
+  const handleOrder = (product: Product) => {
+    setSelectedProduct(product);
+    setIsCheckoutOpen(true);
+  };
+
+  const handleDetails = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDetailsOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-white">
@@ -120,7 +136,13 @@ export default function BoutiquePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProducts.map((product, i) => (
-                  <ProductCard key={product.id} product={product} index={i} />
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    index={i} 
+                    onOrder={() => handleOrder(product)}
+                    onDetails={() => handleDetails(product)}
+                  />
                 ))}
               </div>
 
@@ -140,12 +162,38 @@ export default function BoutiquePage() {
         </div>
       </section>
 
+      {selectedProduct && (
+        <>
+          <CheckoutModal 
+            isOpen={isCheckoutOpen} 
+            onClose={() => setIsCheckoutOpen(false)} 
+            product={selectedProduct} 
+          />
+          <ProductDetailsModal 
+            isOpen={isDetailsOpen} 
+            onClose={() => setIsDetailsOpen(false)} 
+            product={selectedProduct}
+            onOrder={() => setIsCheckoutOpen(true)}
+          />
+        </>
+      )}
+
       <Footer />
     </main>
   );
 }
 
-function ProductCard({ product, index }: { product: Product; index: number }) {
+function ProductCard({ 
+  product, 
+  index, 
+  onOrder, 
+  onDetails 
+}: { 
+  product: Product; 
+  index: number;
+  onOrder: () => void;
+  onDetails: () => void;
+}) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -203,23 +251,31 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="font-orbitron text-3xl font-bold text-[#0066ff]">
-                {product.price} FCFA
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-orbitron text-2xl font-bold text-[#0066ff]">
+            {product.price} FCFA
+          </span>
+        </div>
 
-            </span>
-          </div>
+        <div className="grid grid-cols-2 gap-3">
           <button 
-            className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all ${
+            onClick={onDetails}
+            className="px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-gray-100 text-gray-700 hover:bg-[#0066ff]/10 hover:text-[#0066ff] transition-all"
+          >
+            <Info className="w-4 h-4" />
+            Plus d&apos;infos
+          </button>
+          <button 
+            onClick={onOrder}
+            disabled={!product.in_stock}
+            className={`px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
               product.in_stock 
                 ? "bg-gradient-to-r from-[#0066ff] to-[#0099ff] text-white hover:shadow-lg hover:shadow-[#0066ff]/30"
                 : "bg-gray-200 text-gray-500 cursor-not-allowed"
             }`}
-            disabled={!product.in_stock}
           >
-            <ShoppingCart className="w-4 h-4" />
-            {product.in_stock ? "Ajouter" : "Indisponible"}
+            <ShoppingBag className="w-4 h-4" />
+            {product.in_stock ? "Commander" : "Indisponible"}
           </button>
         </div>
       </div>
