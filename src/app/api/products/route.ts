@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { verifyAdmin } from '@/lib/auth';
 
 export async function GET() {
   const { data, error } = await supabase
@@ -16,6 +17,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const isAdmin = await verifyAdmin();
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { data, error } = await supabase
       .from('products')
